@@ -1,0 +1,227 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Liste des Éditeurs{% endblock %}
+
+{% block body %}
+
+   <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
+    <!--********************************
+   		Code Start From Here 
+	******************************** -->
+    <!--==============================
+	Preloader
+	==============================-->
+    <div class="preloader">
+      <button class="vs-btn preloaderCls">Cancel Preloader</button>
+      <div class="preloader-inner">
+        <img  src="{{ asset('client/img/dark-logo.svg')}}" alt="logo" />
+        <span class="loader"></span>
+      </div>
+    </div>
+    <button class="back-to-top" id="backToTop" aria-label="Back to Top">
+      <span class="progress-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"></circle>
+          <circle class="progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+        <span class="progress-percentage" id="progressPercentage">0%</span>
+      </span>
+    </button>
+    <!--==============================
+    	Mobile Menu
+  	============================== -->
+    <div class="vs-menu-wrapper">
+      <div class="vs-menu-area text-center">
+        <div class="mobile-logo">
+          <a href="index.html"
+            ><img src="{{ asset('client/img/logo.svg')}}" alt="ebukz" class="logo"
+          /></a>
+          <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
+        </div>
+        <div class="vs-mobile-menu">
+          <ul>
+            <li class="menu-item-has-children">
+              <a href="index.html">Home</a>
+              <ul class="sub-menu">
+                <li><a href="index.html">Home 1</a></li>
+                <li><a href="index-2.html">Home 2</a></li>
+                <li><a href="index-3.html">Home 3</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="{{ path('client_livre_index') }}">Livres</a>
+              <ul class="sub-menu">
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="shop-sidebar.html">Shop Sidebar</a></li>
+                <li><a href="shop-details.html">Shop Details</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="about.html">Vendor</a>
+              <ul class="sub-menu">
+                <li><a href="vendor.html">Vendor</a></li>
+                <li><a href="vendor-details.html">Vendor Details</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-children mega-menu-wrap">
+              <a href="#">Pages</a>
+              <ul class="mega-menu">
+                <li>
+                  <a href="shop.html">Page List 1</a>
+                  <ul>
+                    <li><a href="index.html">Home 1</a></li>
+                    <li><a href="index-2.html">Home 2</a></li>
+                    <li><a href="index-3.html">Home 3</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="">Contact</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">Page List 2</a>
+                  <ul>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
+                    <li><a href="blog-sidebar-2.html">Blog Sidebar 2</a></li>
+                    <li><a href="Blog-Standard.html">Blog Standard</a></li>
+                    <li><a href="blog-details.html">Blog Details</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">Page List 3</a>
+                  <ul>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="shop-sidebar.html">Shop Sidebar</a></li>
+                    <li><a href="shop-details.html">Shop Details</a></li>
+                    <li><a href="404.html">Error Page</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">Page List 4</a>
+                  <ul>
+                    <li><a href="wishlist.html">wishlist</a></li>
+                    <li><a href="checkout.html">checkout</a></li>
+                    <li><a href="author.html">All Authors</a></li>
+                    <li><a href="author-details.html">Author Details</a></li>
+                    <li><a href="vendor.html">Vendor</a></li>
+                    <li><a href="vendor-details.html">Vendor Details</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="blog.html">Blog</a>
+              <ul class="sub-menu">
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
+                <li><a href="blog-sidebar-2.html">Blog Sidebar 2</a></li>
+                <li><a href="Blog-Standard.html">Blog Standard</a></li>
+                <li><a href="blog-details.html">Blog Details</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--==============================
+    Popup Search Box
+    ============================== -->
+    <div class="popup-search-box d-none d-lg-block">
+      <button class="searchClose"><i class="fal fa-times"></i></button>
+      <form action="#">
+        <input
+          type="text"
+          class="border-theme"
+          placeholder="What are you looking for"
+        />
+        <button type="submit"><i class="fal fa-search"></i></button>
+      </form>
+    </div>
+    <!--==============================
+        Header Area
+    ==============================-->
+  {# Inclusion du header #}
+   {% include 'partials/header.html.twig' %}
+      <div class="breadcumb-wrapper" data-bg-src="{{ asset('client/img/bg/bg-site.png')}}">
+      <div class="container z-index-common">
+        <div class="breadcumb-content">
+          <h1 class="breadcumb-title">Editeurs</h1>
+          <div class="breadcumb-menu-wrap">
+            <div class="breadcumb-menu">
+              <span><a href="">Accueil</a></span>
+              <span>Editeurs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<section class="vendor-layout1 space-top space-extra-bottom">
+    <div class="container">
+        <div class="row gy-30 mb-20">
+
+            {% for editeur in editeurs %}
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="vendor-style1 wow animate__fadeInUp" data-wow-delay="0.20s">
+                        <div class="vendor-body">
+                            <div class="vendor-inner">
+                                <span class="vendor-icon">
+                                    <img src="{{ asset('client/img/vendor/user.png') }}" style="width:100px; height:100px; object-fit:cover;"  alt="vendor image" />
+                                </span>
+                                <div>
+                                    <h6 class="vendor-title">
+                                        <a href="{{ path('client_editeur_show', { id: editeur.id }) }}">
+                                            {{ editeur.nom }}
+                                        </a>
+                                    </h6>
+                                    <div class="star-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-style1">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <i class="fas fa-map-marked-alt"></i> {{ editeur.adresse }}
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-envelope"></i> {{ editeur.pays }}
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-headset"></i> {{ editeur.telephone }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="{{ path('client_editeur_show', { id: editeur.id }) }}" class="icon-btn">
+                                <i class="fa-regular fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+               <div class="pagination-wrapper mt-4">
+                    {{ knp_pagination_render(editeurs) }}
+                </div>
+        </div>
+       
+    </div>
+</section>
+
+ {# Inclusion du footer #}
+    {{ include('partials/footer.html.twig') }}
+{% endblock %}

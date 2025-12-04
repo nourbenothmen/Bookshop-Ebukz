@@ -1,0 +1,41 @@
+{# templates/pagination/ebukz_pagination.html.twig #}
+{% if pageCount > 1 %}
+<div class="vs-pagination mt-55">
+
+    {# Bouton précédent #}
+    {% if previous is defined %}
+        <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="pagi-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    {% else %}
+        <a class="pagi-btn disabled">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    {% endif %}
+
+    <ul>
+        {% for page in pagesInRange %}
+            {% if page == current %}
+                <li><a class="active">{{ page }}</a></li>
+            {% else %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">
+                        {{ page }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    {# Bouton suivant #}
+    {% if next is defined %}
+        <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="pagi-btn active">
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    {% else %}
+        <a class="pagi-btn disabled">
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    {% endif %}
+</div>
+{% endif %}

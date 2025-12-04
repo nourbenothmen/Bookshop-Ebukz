@@ -1,0 +1,10 @@
+{% extends 'client/base.html.twig' %}
+{% block title %}Merci pour votre commande !{% endblock %}
+{% block body %}
+<div class="container py-5 text-center">
+    <h1 class="text-success mb-4">Commande confirmée !</h1>
+    <p class="lead">Votre commande a été enregistrée avec succès.</p>
+    <p>Vous recevrez un e-mail de confirmation très bientôt.</p>
+    <a href="{{ path('client_livre_index') }}" class="vs-btn">Continuer mes achats</a>
+</div>
+{% endblock %}

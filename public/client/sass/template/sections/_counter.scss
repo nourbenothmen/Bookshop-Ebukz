@@ -1,0 +1,117 @@
+.counter-style1{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-content: space-between;
+    gap: 30px;
+    position: relative;
+    .counter-line{
+      display: block;
+      position: relative;
+      &::after{
+          content: '';
+          position: absolute;
+          width: 2px;
+          height: 120px;
+          background-color: $white-color;
+          right: -15px;
+          top: 50%;
+          transform: translateY(-80%);
+      }
+      .icon{
+        position: absolute;
+        right: -19px;
+        top: -35px;
+        z-index: 1;
+      }
+    }
+    
+      
+  .media-count{
+      display: inline-flex;
+      font-family: $title-font;
+      margin-bottom: 8px;
+  }
+  .media-title{
+      margin-bottom: 0;
+  }
+  .media-title{
+      color: $white-color;
+      font-family: $title-font;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: normal;
+      margin: 0;
+  }
+  .media-text{
+      color: $white-color;
+      font-family: $title-font;
+      font-size: 20px;
+      text-transform: capitalize;
+      margin-bottom: 0;
+      font-weight: 700;
+      line-height: 100%;
+  }
+  .count-icon{
+      color: $white-color;
+      font-size: 48px;
+      display: inline-block;
+      font-weight: 700;
+      position: relative;
+      line-height: normal;
+  }
+
+
+}
+.counter-layout1{
+  padding: 70px 0;
+}
+@include md{
+  .counter-style1{
+    gap: 10px;
+    .counter-line{
+      display: none;
+    }
+    .count-icon,
+    .media-title{
+      font-size: 32px;
+    }
+    .media-text{
+      font-size: 16px;
+    }
+  }
+}
+@include sm{
+  .counter-style1 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    .count-icon,
+    .media-title{
+      font-size: 48px;
+    }
+    .media-text{
+      font-size: 20px;
+    }
+  }
+}
+@include xs{
+  .counter-style1 {
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    gap: 20px;
+    .media-text{
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 420px){
+  .counter-style1 {
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: center;
+      gap: 30px;
+    .media-text{
+      font-size: 16px;
+    }
+  }
+}

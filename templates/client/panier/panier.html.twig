@@ -1,0 +1,245 @@
+{# templates/client/panier/panier.html.twig #}
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+
+<!-- Breadcrumb -->
+<div class="breadcumb-wrapper" data-bg-src="{{ asset('client/img/bg/bg-site.png') }}">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Panier</h1>
+            <div class="breadcumb-menu-wrap">
+                <div class="breadcumb-menu">
+                    <span><a href="{{ path('client_livre_index') }}">Accueil</a></span>
+                    <span>Panier</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="vs-cart-wrapper space-top space-extra-bottom">
+    <div class="container">
+
+        {% for message in app.flashes('success') %}
+            <div class="woocommerce-notices-wrapper">
+                <div class="woocommerce-message alert alert-success">{{ message }}</div>
+            </div>
+        {% endfor %}
+
+        {% if panier is empty %}
+            <div class="text-center py-5">
+                <h3>Votre panier est vide</h3>
+                <a href="{{ path('client_livre_index') }}" class="vs-btn">Continuer vos achats</a>
+            </div>
+        {% else %}
+
+            <form class="woocommerce-cart-form">
+                <table class="cart_table mb-5">
+                    <thead>
+                        <tr>
+                            <th class="cart-col-image">Image</th>
+                            <th class="cart-col-productname">Produit</th>
+                            <th class="cart-col-price">Prix</th>
+                            <th class="cart-col-quantity">Quantité</th>
+                            <th class="cart-col-total">Total</th>
+                            <th class="cart-col-remove">Supprimer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, qte in panier %}
+                            {% set livre = livres[id] %}
+                            <tr class="cart_item">
+                                <td data-title="Image">
+                                    <a class="cart-productimage" href="{{ path('client_livre_show', {'id': livre.id}) }}">
+                                        <img width="100" height="95"
+                                             src="{{ asset('uploads/livres/' ~ livre.image) }}"
+                                             alt="{{ livre.titre }}">
+                                    </a>
+                                </td>
+                                <td data-title="Produit">
+                                    <a class="cart-productname" href="{{ path('client_livre_show', {'id': livre.id}) }}">
+                                        {{ livre.titre }}
+                                    </a>
+                                </td>
+                                <td data-title="Prix">
+                                    <span class="amount"><bdi>{{ livre.pu|number_format(2, ',', '.') }} DT</bdi></span>
+                                </td>
+                                <td data-title="Quantité">
+                                    <div class="quantity style2">
+                                        <div class="quantity__field quantity-container">
+                                            <div class="quantity__buttons">
+                                               <button type="button" class="btn-minus-custom">
+    <i class="fal fa-minus"></i>
+</button>
+                                                <input type="number"
+                                                       class="qty-input"
+                                                       data-id="{{ livre.id }}"
+                                                       data-price="{{ livre.pu }}"
+                                                       value="{{ qte }}"
+                                                       min="1"
+                                                       style="width: 60px;">
+                                               <button type="button" class="btn-plus-custom">
+    <i class="fal fa-plus"></i>
+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-title="Total">
+                                    <span class="amount" id="total-{{ livre.id }}">
+                                        <bdi>{{ (livre.pu * qte)|number_format(2, ',', '.') }} DT</bdi>
+                                    </span>
+                                </td>
+                                <td data-title="Supprimer">
+                                    <a href="{{ path('client_panier_supprimer', {'id': livre.id}) }}"
+                                       class="remove">
+                                        <i class="fal fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+
+            <div class="row justify-content-end">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <h2 class="h4 summary-title">Total du panier</h2>
+                    <table class="cart_totals">
+                        <tbody>
+                            <tr>
+                                <td>Sous-total</td>
+                                <td>
+                                    <span class="amount">
+                                        <bdi id="total-general">
+                                            {{ total|number_format(2, ',', '.') }} DT
+                                        </bdi>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="order-total">
+                                <td><strong>Total</strong></td>
+                                <td>
+                                    <strong>
+                                        <span class="amount">
+                                            <bdi id="total-general-footer">
+                                                {{ total|number_format(2, ',', '.') }} DT
+                                            </bdi>
+                                        </span>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="mt-4 text-center">
+                        <a href="{{ path('client_caisse') }}" class="vs-btn">Passer la commande</a>
+                        <a href="{{ path('client_livre_index') }}" class="vs-btn style2 ms-3">Continuer vos achats</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Fix erreur progress-circle du thème
+    if (!document.querySelector('.progress-circle')) {
+        const dummy = document.createElement('div');
+        dummy.className = 'progress-circle';
+        dummy.style.display = 'none';
+        document.body.appendChild(dummy);
+    }
+
+    function updateLineTotal(livreId, quantite, prix) {
+        const total = prix * quantite;
+        const cell = document.getElementById('total-' + livreId);
+        if (cell) cell.textContent = total.toFixed(2).replace('.', ',') + ' DT';
+    }
+
+    function updateCart(livreId, quantite) {
+        if (quantite < 1) quantite = 1;
+
+        fetch("{{ path('client_panier_update_qty', {'id': '999999'}) }}".replace('999999', livreId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ quantity: quantite })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                const input = document.querySelector(`.qty-input[data-id="${livreId}"]`);
+                const prix = parseFloat(input.dataset.price);
+
+                input.value = data.qte;
+                updateLineTotal(livreId, data.qte, prix);
+
+                // Mise à jour des deux totaux
+                document.getElementById('total-general').textContent = 
+                    parseFloat(data.totalGeneral).toFixed(2).replace('.', ',') + ' DT';
+                document.getElementById('total-general-footer').textContent = 
+                    parseFloat(data.totalGeneral).toFixed(2).replace('.', ',') + ' DT';
+
+                // Mise à jour du mini-cart + badge
+                fetch('{{ path("client_mini_cart") }}')
+                    .then(r => r.text())
+                    .then(html => {
+                        const container = document.querySelector('.widget_shopping_cart_content');
+                        if (container) container.innerHTML = html;
+                    });
+
+                const badge = document.querySelector('.header-cart .badge');
+                if (badge) badge.textContent = data.totalQuantity || 0;
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+    // Boutons + / -
+  document.querySelectorAll('.btn-plus-custom, .btn-minus-custom').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const input = this.closest('.quantity__buttons').querySelector('.qty-input');
+        const livreId = input.dataset.id;
+        const prix = parseFloat(input.dataset.price);
+        let qte = parseInt(input.value) || 1;
+
+        if (this.classList.contains('btn-plus-custom')) qte++;
+        else if (qte > 1) qte--;
+
+        input.value = qte;
+        updateLineTotal(livreId, qte, prix);
+        updateCart(livreId, qte);
+    });
+});
+
+    // Saisie manuelle
+    document.querySelectorAll('.qty-input').forEach(input => {
+        input.addEventListener('change', function () {
+            let qte = parseInt(this.value) || 1;
+            if (qte < 1) { qte = 1; this.value = 1; }
+            const livreId = this.dataset.id;
+            const prix = parseFloat(this.dataset.price);
+            updateLineTotal(livreId, qte, prix);
+            updateCart(livreId, qte);
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Détails du Livre</h1>
+    <br>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+           <div class="col-md-4 text-center p-3">
+    {% if livre.image %}
+        <img src="{{ asset('uploads/livres/' ~ livre.image) }}"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 300px; max-height: 300px; object-fit: cover;"
+             alt="{{ livre.titre }}">
+    {% else %}
+        <img src="{{ asset('admin/img/placeholder-96.png') }}"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 300px; max-height: 300px; object-fit: cover;"
+             alt="Image par défaut">
+    {% endif %}
+</div>
+
+ <div class="col-md-8">
+            <div class="card-body">
+                    <h4 class="card-title">{{ livre.titre }}</h4>
+                    <p><strong>Auteur(s):</strong>
+    {% for auteur in livre.auteurs %}
+        {{ auteur.nom }}  {{ auteur.prenom}}{% if not loop.last %}, {% endif %}
+    {% else %}
+        N/A
+    {% endfor %}
+</p>
+
+<p><strong>Éditeur:</strong> {{ livre.editeur ? livre.editeur.nom : 'N/A' }}</p>
+<p><strong>Catégorie:</strong> {{ livre.categorie ? livre.categorie.designation : 'N/A' }}</p>
+                    <p class="card-text"><strong>Quantité:</strong> {{ livre.qte }}</p>
+                    <p class="card-text"><strong>Prix:</strong> {{ livre.pu }} DT</p>
+                    <p class="card-text"><strong>ISBN:</strong> {{ livre.isbn }}</p>
+                    <p class="card-text"><strong>Date de publication:</strong> {{ livre.datepub ? livre.datepub|date('d/m/Y') : 'N/A' }}</p>
+                    </div>
+                    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ path('admin_livre_index') }}" class="btn btn-secondary">
+            <i class="fa fa-arrow-left me-1"></i> Retour à la liste
+        </a>
+        <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}" class="btn btn-primary">
+            <i class="fa fa-edit me-1"></i> Modifier
+        </a>
+        {{ include('admin/livre/_delete_form.html.twig') }}
+    </div>
+
+</div>
+{% endblock %}

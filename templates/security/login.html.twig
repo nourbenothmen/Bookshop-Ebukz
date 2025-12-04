@@ -1,0 +1,98 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+{# templates/security/login.html.twig #}
+{% if app.flashes('warning')|length > 0 %}
+    <div class="alert alert-warning alert-dismissible fade show text-center mb-4" role="alert">
+        <strong>Compte non activé !</strong><br>
+        {% for message in app.flashes('warning') %}
+            {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+{% endif %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm p-4 border-0 rounded-4">
+
+                <h2 class="text-center mb-4 fw-bold">Se connecter</h2>
+
+                {% if error %}
+                    <div class="alert alert-danger text-center">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info text-center">
+                        Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong><br>
+                        <a href="{{ path('app_logout') }}" class="fw-semibold">Se déconnecter</a>
+                    </div>
+                {% endif %}
+
+                <form method="post" class="needs-validation">
+
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label fw-semibold">Email</label>
+                        <input
+                            type="email"
+                            value="{{ last_username }}"
+                            name="email"
+                            id="inputEmail"
+                            class="form-control rounded-3 py-2"
+                            placeholder="Votre adresse email"
+                            autocomplete="email"
+                            required
+                            autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label fw-semibold">Mot de passe</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="inputPassword"
+                            class="form-control rounded-3 py-2"
+                            placeholder="Votre mot de passe"
+                            autocomplete="current-password"
+                            required>
+                    </div>
+
+                    <input type="hidden"
+                           name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <label class="d-flex align-items-center gap-2">
+                            <input type="checkbox" name="_remember_me">
+                            <span>Se souvenir de moi</span>
+                        </label>
+                        <a href="{{ path('app_forgot_password_request') }}" class="small text-primary fw-semibold">
+    Mot de passe oublié ?
+</a>
+
+                    </div>
+
+                    <button class="btn btn-primary w-100 rounded-3 py-2">
+                        <i class="fa fa-sign-in me-1"></i> Se connecter
+                    </button>
+
+                </form>
+
+                <p class="text-center mt-3">
+                    Pas encore de compte ?
+                    <a href="{{ path('app_register') }}" class="text-primary fw-semibold">Créer un compte</a>
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Noter le livre – {{ livre.titre }}{% endblock %}
+
+{% block body %}
+<div class="breadcumb-wrapper" data-bg-src="{{ asset('client/img/bg/bg-site.png') }}">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Laisser un avis</h1>
+            <div class="breadcumb-menu-wrap">
+                <div class="breadcumb-menu">
+                    <span><a href="{{ path('app_home') }}">Accueil</a></span>
+                    <span><a href="{{ path('client_livre_index') }}">Livres</a></span>
+                    <span><a href="{{ path('client_livre_show', {id: livre.id}) }}">{{ livre.titre|u.truncate(30) }}</a></span>
+                    <span>Noter</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="space-top space-extra-bottom">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <h1 class="h3 mb-4 text-center">
+                            Que pensez-vous de <strong class="text-primary">{{ livre.titre }}</strong> ?
+                        </h1>
+
+                        <form method="post" class="mt-4">
+                            <!-- ÉTOILES CLICABLES -->
+                            <div class="text-center mb-4">
+                                <label class="d-block mb-3 fs-5">Votre note <span class="text-danger">*</span></label>
+                                <div class="rating-stars d-inline-flex" style="font-size: 3rem; gap: 10px;">
+                                    {% for i in 5..1 %}
+                                        <label style="cursor:pointer;">
+                                            <input type="radio" name="note" value="{{ i }}" required style="display:none;">
+                                            <i class="far fa-star text-warning star-hover" data-value="{{ i }}"></i>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                                <div class="mt-2" id="noteText">Cliquez sur les étoiles</div>
+                            </div>
+
+                            <!-- COMMENTAIRE -->
+                            <div class="mb-4">
+                                <label for="commentaire" class="form-label">Votre commentaire (facultatif)</label>
+                                <textarea name="commentaire" id="commentaire" class="form-control" rows="5"
+                                          placeholder="Partagez votre expérience avec ce livre..."></textarea>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    Envoyer mon avis
+                                </button>
+                                <a href="{{ path('client_livre_show', {id: livre.id}) }}" class="btn btn-link">
+                                    Annuler
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.querySelectorAll('.rating-stars label').forEach(label => {
+    const star = label.querySelector('i');
+    const input = label.querySelector('input');
+
+    // Hover
+    label.addEventListener('mouseenter', () => {
+        const value = input.value;
+        document.querySelectorAll('.rating-stars i').forEach((s, index) => {
+            s.classList.toggle('fas', index >= 5 - value);
+            s.classList.toggle('far', index < 5 - value);
+        });
+    });
+
+    // Click
+    label.addEventListener('click', () => {
+        const texts = ['', 'Détesté', 'Bof', 'Correct', 'Bien', 'Excellent !'];
+        document.getElementById('noteText').innerHTML = `<strong class="text-primary">${texts[input.value]}</strong>`;
+    });
+});
+
+// Remettre les étoiles au survol de sortie
+document.querySelector('.rating-stars').addEventListener('mouseleave', () => {
+    const checked = document.querySelector('input[name="note"]:checked');
+    if (checked) {
+        const value = checked.value;
+        document.querySelectorAll('.rating-stars i').forEach((s, index) => {
+            s.classList.toggle('fas', index >= 5 - value);
+            s.classList.toggle('far', index < 5 - value);
+        });
+    } else {
+        document.querySelectorAll('.rating-stars i').forEach(s => {
+            s.classList.remove('fas');
+            s.classList.add('far');
+        });
+        document.getElementById('noteText').textContent = 'Cliquez sur les étoiles';
+    }
+});
+</script>
+{% endblock %}

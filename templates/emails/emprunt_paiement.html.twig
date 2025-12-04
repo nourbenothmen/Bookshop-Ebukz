@@ -1,0 +1,45 @@
+{# templates/emails/emprunt_paiement.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Votre emprunt est validé !</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .btn { background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Bonjour {{ emprunt.emprunteur.prenom }} {{ emprunt.emprunteur.nom }} !</h1>
+    <!-- CORRIGÉ : getPrenom() et getNom() avec majuscule -->
+    <p>Votre pièce d’identité a été <strong>validée avec succès</strong>.</p>
+    
+    <p>Vous pouvez maintenant finaliser le paiement pour activer votre emprunt :</p>
+    
+    <h2>« {{ emprunt.livre.titre }} »</h2>
+    
+    <p><strong>Montant à payer :</strong> 
+        <span style="font-size: 1.4em; color: #28a745;">
+            {{ (emprunt.fraisEmprunt + emprunt.caution)|number_format(2) }} DT
+        </span>
+    </p>
+    
+    <p style="text-align: center; margin: 40px 0;">
+        <a href="{{ lien_paiement }}" class="btn" target="_blank">
+            Payer maintenant (carte bancaire)
+        </a>
+    </p>
+    
+    <hr>
+    <p><small>
+        Date de retour prévue : <strong>{{ emprunt.dateRetourPrevue|date('d/m/Y') }}</strong><br>
+        En cas de non-paiement sous 48h, votre demande sera annulée.
+    </small></p>
+    
+    <p>Merci de votre confiance !<br><strong>Bookshop.tn</strong></p>
+</div>
+</body>
+</html>

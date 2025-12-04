@@ -1,0 +1,127 @@
+
+  .cta-layout1 {
+    background-color: $secondary-color;
+    position: relative;
+    overflow: hidden;
+    .cta-logo{
+      padding: 40px 60px;
+      background-color: $theme-color;
+      text-align: center;
+      border-right: 1px solid $white-color;
+      border-left: 1px solid $white-color;
+    }
+    .newsletter-form{
+      text-align: right;
+    }
+    .search-btn{
+      max-width: 620px;
+    }
+    &.style2{
+      .search-btn{
+        max-width: 530px;
+      }
+    }
+
+    .vs-btn{
+      color: $white-color;
+      font-weight: 500;
+      text-transform: capitalize;
+      background-color: $title-color;
+      z-index: 2;
+      width: 100%;
+      max-width: 160px;
+      padding: 20px;
+      &::before,
+      &::after{
+        background-color: $theme-color;
+      }
+      &:hover{
+        color: $white-color;
+        background-color: $theme-color;
+      }
+    }
+  }
+
+
+.subscribe {
+  &-block {
+    $self: &;
+    &--style1 {
+      position: relative;
+      #{$self}__field {
+        height: 70px;
+      }
+      .vs-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+
+.newsletter-inner {
+    display: inline-flex;
+    align-items: center;
+    .newsletter-icon{
+      width: 60px;
+      height: 60px;
+      margin-right: 20px;
+      img{
+        width: 100%;
+      }
+    }
+    .newsletter_title{
+      font-size: 24px;
+      color: $white-color;
+      line-height: 100%;
+      margin: 0 0 3px 0;
+    }
+    .newsletter-text{
+      margin-bottom: 0;
+      color: $white-color;
+    }
+    .newsletter-content {
+        position: relative;
+        top: 5px;
+    }
+}
+
+@include lg{
+  .cta-layout1 .cta-logo {
+    padding: 40px 30px;
+  }
+  
+}
+
+@include md{
+  .cta-layout1 {
+    text-align: center;
+    padding: 40px 0;
+    .cta-logo {
+      padding: 0;
+      background-color: transparent;
+      margin-bottom: 30px;
+      border: none;
+    }
+    .newsletter-inner{
+      margin-bottom: 20px;
+    }
+    .newsletter-form {
+      text-align: center;
+    }
+  }
+}
+
+@include xs{
+  .cta-layout1{
+    .search-btn .form-control {
+      padding: 0 5px 0 15px;
+    }
+    .vs-btn{
+      padding: 0;
+    }
+  }
+}

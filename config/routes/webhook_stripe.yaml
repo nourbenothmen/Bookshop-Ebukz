@@ -1,0 +1,9 @@
+# config/routes/webhook_stripe.yaml
+webhook_stripe:
+    path: /webhook/stripe
+    controller: App\Controller\StripeWebhookController::__invoke
+    methods: [POST]
+    # CETTE LIGNE REND LA ROUTE PUBLIQUE MÊME SI TOUT LE RESTE EST PROTÉGÉ
+    stateless: true
+    requirements:
+        _access_control: 'IS_AUTHENTICATED_ANONYMOUSLY'

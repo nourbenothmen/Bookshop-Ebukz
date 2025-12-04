@@ -1,0 +1,94 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}Gestion des livres{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-primary"><i class="fa fa-book"></i> Liste des livres</h1>
+        <br/>
+        <a href="{{ path('admin_livre_new') }}" class="btn btn-success">
+            <i class="fa fa-plus"></i> Ajouter un livre
+        </a>
+    </div>
+    <br/>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong><i class="fa fa-list"></i> Tous les livres</strong>
+        </div>
+
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Titre</th>
+                            <th>Quantité</th>
+                            <th>Prix (DT)</th>
+                            <th>ISBN</th>
+                            <th>Date de publication</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for livre in livres %}
+                            <tr>
+                                <td><strong>{{ livre.id }}</strong></td>
+
+                                <!-- Image -->
+                                <td>
+                                    {% if livre.image %}
+                                        <img src="{{ asset('uploads/livres/' ~ livre.image) }}"
+                                             alt="{{ livre.titre }}"
+                                             class="img-thumbnail"
+                                             style="width:60px; height:60px; object-fit:cover;">
+                                    {% else %}
+                                        <span class="text-muted">Aucune image</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ livre.titre }}</td>
+
+                                <td>
+                                    <span class="badge 
+                                        {% if livre.qte > 10 %}bg-success
+                                        {% elseif livre.qte > 0 %}bg-warning
+                                        {% else %}bg-danger{% endif %}">
+                                        {{ livre.qte }}
+                                    </span>
+                                </td>
+
+                                <td><strong>{{ livre.pu }} DT</strong></td>
+
+                                <td>{{ livre.isbn }}</td>
+                                <td>{{ livre.datepub ? livre.datepub|date('d/m/Y') : '-' }}</td>
+
+                                <td>
+                                    <a href="{{ path('admin_livre_show', {'id': livre.id}) }}"
+                                       class="btn btn-sm btn-info">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+
+                                    <a href="{{ path('admin_livre_edit', {'id': livre.id}) }}"
+                                       class="btn btn-sm btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-muted">Aucun livre trouvé</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Accueil{% endblock %}</title>
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('client/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/fontawesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/magnific-popup.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/slick.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/nice-select.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/animate.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/nouislider.css') }}">
+        <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
+        
+    {% endblock %}
+    <style>
+    .no-wow {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+    </style>
+</head>
+
+<body>
+
+    {% block body %}{% endblock %}
+
+{% block javascripts %}
+    <!-- Jquery -->
+    <script src="{{ asset('client/js/vendor/jquery-3.7.1.min.js') }}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{{ asset('client/js/bootstrap.min.js') }}"></script>
+
+    <!-- Slick Slider -->
+    <script src="{{ asset('client/js/slick.min.js') }}"></script>
+
+    <!-- Magnific Popup -->
+    <script src="{{ asset('client/js/jquery.magnific-popup.min.js') }}"></script>
+
+    <!-- imagesloaded -->
+    <script src="{{ asset('client/js/imagesloaded.pkgd.min.js') }}"></script>
+
+    <!-- Isotope Filter -->
+    <script src="{{ asset('client/js/isotope.pkgd.min.js') }}"></script>
+
+    <!-- Gsap -->
+    <script src="{{ asset('client/js/gsap.min.js') }}"></script>
+
+    <!-- ScrollTrigger -->
+    <script src="{{ asset('client/js/ScrollTrigger.min.js') }}"></script>
+
+    <!-- Gsap ScrollTo Plugin -->
+    <script src="{{ asset('client/js/gsap-scroll-to-plugin.js') }}"></script>
+
+    <!-- Split Text -->
+    <script src="{{ asset('client/js/SplitText.js') }}"></script>
+
+    <!-- lenis -->
+    <script src="{{ asset('client/js/lenis.min.js') }}"></script>
+
+    <!-- wow js -->
+    <script src="{{ asset('client/js/wow.min.js') }}"></script>
+
+    <!-- nice-select -->
+    <script src="{{ asset('client/js/jquery.nice-select.min.js') }}"></script>
+
+    <!-- nouislider -->
+    <script src="{{ asset('client/js/nouislider.min.js') }}"></script>
+
+    <!-- Main Js File -->
+    <script src="{{ asset('client/js/main.js') }}"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Boutons +
+    document.querySelectorAll(".quantity-plus").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            let input = this.parentElement.querySelector(".qty-input");
+            input.value = parseInt(input.value) + 1;
+        });
+    });
+
+    // Boutons -
+    document.querySelectorAll(".quantity-minus").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            let input = this.parentElement.querySelector(".qty-input");
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        });
+    });
+
+});
+</script>
+
+{% endblock %}
+
+</body>
+</html>

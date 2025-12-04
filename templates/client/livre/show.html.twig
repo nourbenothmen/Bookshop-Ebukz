@@ -1,0 +1,129 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .book-details-card .card-body p,
+    .book-details-card .card-body strong,
+    .book-details-card .card-title {
+        color: #000 !important;
+    }
+
+    .book-details-card {
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .book-image {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #000 !important;
+    }
+
+    .info-value {
+        color: #333 !important;
+    }
+
+    .btn-wishlist {
+        border-radius: 25px;
+    }
+
+    .btn-panier {
+        border-radius: 25px;
+    }
+
+    h1 {
+        color: #1e3d59;
+        font-weight: 700;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Détails du Livre</h1>
+
+    <div class="card shadow-sm book-details-card mb-4">
+        <div class="row g-0">
+            
+            <!-- Image -->
+            <div class="col-md-4 text-center p-4">
+                <img src="{{ livre.image ? asset('uploads/livres/' ~ livre.image) : asset('client/img/product/placeholder.jpg') }}"
+                    class="img-fluid book-image"
+                    style="max-width: 100%; max-height: 320px; object-fit: cover;"
+                    alt="{{ livre.titre }}">
+
+                <div class="mt-3 d-flex justify-content-center gap-3">
+                     <form method="post" action="{{ path('client_wishlist_ajouter', {'id': livre.id}) }}" class="d-inline">
+                                    <button type="submit" class="icon-btn wishlist text-muted" title="Ajouter à la wishlist"><i class="far fa-heart"></i></button>
+                                </form>
+                    <a href="{{ path('client_panier_ajouter', {'id': livre.id}) }}"  class="btn btn-outline-primary btn-sm btn-panier">
+                        <i class="fa-solid fa-basket-shopping"></i> Ajouter au panier
+                    </a>
+                </div>
+            </div>
+
+            <!-- Infos -->
+            <div class="col-md-8">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3">{{ livre.titre }}</h3>
+                    
+                    <p><span class="info-label">Résumé :</span>
+                        <span class="info-value">{{ livre.resume}}</span>
+                    </p>
+
+
+                    <p><span class="info-label">Prix :</span>
+                        <span class="info-value">{{ livre.pu|number_format(2, '.', ',') }} DT</span>
+                    </p>
+
+                    <p><span class="info-label">ISBN :</span>
+                        <span class="info-value">{{ livre.isbn }}</span>
+                    </p>
+
+                    <p><span class="info-label">Date de publication :</span>
+                        <span class="info-value">{{ livre.datepub ? livre.datepub|date('d/m/Y') : 'N/A' }}</span>
+                    </p>
+
+                    <p>
+                        <span class="info-label">Auteur(s) :</span>
+                        <span class="info-value">
+                            {% if livre.auteurs|length %}
+                                {% for auteur in livre.auteurs %}
+                                    {{ auteur.prenom }} {{ auteur.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </span>
+                    </p>
+
+                    <p><span class="info-label">Catégorie :</span>
+                        <span class="info-value">{{ livre.categorie ? livre.categorie.designation : 'N/A' }}</span>
+                    </p>
+
+                    <p><span class="info-label">Éditeur :</span>
+                        <span class="info-value">{{ livre.editeur ? livre.editeur.nom : 'N/A' }}</span>
+                    </p>
+
+                    <div class="mt-4">
+                        <a href="{{ path('client_livre_index') }}" class="btn btn-secondary">
+                            <i class="fa fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

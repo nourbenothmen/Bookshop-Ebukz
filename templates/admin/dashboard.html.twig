@@ -1,0 +1,239 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord – Bookshop.tn{% endblock %}
+
+{% block content_title %}
+    <div class="d-flex align-items-center">
+        <img src="{{ asset('images/logo-bookshop.png') }}" alt="Bookshop.tn" style="height:50px; margin-right:15px;">
+        <h1 class="content-header-title mb-0">Bienvenue dans l’administration</h1>
+    </div>
+{% endblock %}
+
+{% block main %}
+<style>
+    .stat-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        height: 100%;
+    }
+    .stat-card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    }
+    .stat-card .card-body {
+        padding: 2.5rem 2rem;
+        position: relative;
+    }
+
+    /* COULEURS CLASSIQUES */
+    .bg-livres    { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; }
+    .bg-commandes { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important; }
+    .bg-users     { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important; }
+    .bg-emprunts  { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important; }
+
+    .stat-icon {
+        font-size: 5rem;
+        opacity: 0.2;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .stat-number { font-size: 3.5rem; font-weight: 900; text-shadow: 0 3px 15px rgba(0,0,0,0.4); }
+    .stat-label  { font-size: 1.2rem; font-weight: 600; margin-top: 12px; opacity: 0.95; }
+
+    /* LE ROI DU DASHBOARD : LE CHIFFRE D'AFFAIRES */
+    .ca-card {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border-radius: 24px;
+        padding: 2.5rem;
+        box-shadow: 0 20px 50px rgba(30, 82, 152, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    .ca-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+        transform: rotate(30deg);
+        animation: shine 6s infinite;
+    }
+    @keyframes shine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+    }
+    .ca-amount {
+        font-size: 4.2rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+    .alert-card { border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+    .top-livre { transition: all 0.3s; }
+    .top-livre:hover { background: rgba(255,255,255,0.1); transform: translateX(8px); }
+</style>
+
+{# === LES 4 CARTES CLASSIQUES === #}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-5 mb-5">
+    <div class="col">
+        <div class="card stat-card text-white bg-livres">
+            <div class="card-body">
+                <div class="stat-icon">Book</div>
+                <div class="stat-number">{{ nbLivres|number_format(0, '', ' ') }}</div>
+                <div class="stat-label">Livres en catalogue</div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card stat-card text-white bg-commandes">
+            <div class="card-body">
+                <div class="stat-icon">Cart</div>
+                <div class="stat-number">{{ nbCommandes|number_format(0, '', ' ') }}</div>
+                <div class="stat-label">Commandes totales</div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card stat-card text-white bg-users">
+            <div class="card-body">
+                <div class="stat-icon">Users</div>
+                <div class="stat-number">{{ nbUsers|number_format(0, '', ' ') }}</div>
+                <div class="stat-label">Utilisateurs inscrits</div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card stat-card text-white bg-emprunts">
+            <div class="card-body">
+                <div class="stat-icon">Library</div>
+                <div class="stat-number">{{ nbEmprunts|number_format(0, '', ' ') }}</div>
+                <div class="stat-label">Emprunts en cours</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# === LE TRÔNE DU CHIFFRE D'AFFAIRES === #}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="ca-card text-white text-center">
+            <h2 class="mb-4 opacity-90 text-uppercase tracking-wider" style="letter-spacing: 4px; font-weight: 300;">
+                Chiffre d'affaires total
+            </h2>
+            <div class="ca-amount mb-2">
+                {{ caTotal|number_format(2, ',', ' ') }} <small style="font-size: 2rem;">DT</small>
+            </div>
+            <p class="fs-3 mb-0 opacity-90">
+                <i class="fas fa-arrow-up text-success"></i>
+                {{ caMois|number_format(2, ',', ' ') }} DT ce {{ moisActuel }}
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row g-4">
+
+    {# === ALERTES OPÉRATIONNELLES === #}
+    <div class="col-12 col-lg-4">
+        <div class="card alert-card border-start border-warning border-5">
+            <div class="card-body">
+                <h5 class="text-warning">Commandes en attente (COD)</h5>
+                <h2 class="text-dark">{{ commandesEnAttente }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="card alert-card border-start border-info border-5">
+            <div class="card-body">
+                <h5 class="text-info">Payées mais non expédiées</h5>
+                <h2 class="text-dark">{{ commandesPayeesNonExpediees }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="card alert-card border-start border-danger border-5">
+            <div class="card-body">
+                <h5 class="text-danger">Commandes annulées</h5>
+                <h2 class="text-dark">{{ commandesAnnulees }}</h2>
+            </div>
+        </div>
+    </div>
+
+    {# === NOUVEAUX CLIENTS === #}
+    <div class="col-12 col-md-6">
+        <div class="card h-100 bg-gradient text-white" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <div class="card-body text-center py-5">
+                <h1 class="display-4 fw-bold">{{ nouveauxClientsMois }}</h1>
+                <p class="fs-4 opacity-90">Nouveaux clients ce {{ moisActuel }}</p>
+            </div>
+        </div>
+    </div>
+
+    {# === TOP 10 LIVRES === #}
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Top 10 livres vendus</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for livre in top10Livres %}
+                        <div class="list-group-item top-livre d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ loop.index }}.</strong> {{ livre.titre }}
+                                <small class="text-muted d-block">{{ livre.isbn }}</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">{{ livre.ventes }} ventes</span>
+                        </div>
+                    {% else %}
+                        <div class="list-group-item text-center text-muted">Aucune vente</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# === ALERTES STOCK === #}
+    <div class="col-12 col-lg-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">En rupture de stock ({{ livresRupture|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% for livre in livresRupture %}
+                    <span class="badge bg-danger me-1 mb-1">{{ livre.titre }}</span>
+                {% else %}
+                    <p class="text-success">Tout est en stock !</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Stock faible < 5 ({{ livresStockFaible|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% for livre in livresStockFaible %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>{{ livre.titre }}</span>
+                        <span class="badge bg-warning text-dark">{{ livre.quantiteEnStock }} restants</span>
+                    </div>
+                {% else %}
+                    <p class="text-success">Stocks confortables</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{# Bonus : Petite ligne discrète en bas #}
+<div class="text-center mt-4 text-muted small">
+    Bookshop.tn – La librairie qui domine le marché depuis 2025
+</div>
+{% endblock %}

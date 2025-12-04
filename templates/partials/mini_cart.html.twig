@@ -1,0 +1,46 @@
+<ul class="cart_list">
+
+    {% if panier is not empty %}
+        {% for id, qty in panier %}
+            {% set livre = livres[id] %}
+
+            <li class="mini_cart_item">
+                <a href="{{ path('client_panier_supprimer', {'id': id}) }}" class="remove">
+                    <i class="far fa-times"></i>
+                </a>
+
+                <a href="{{ path('client_livre_show', {'id': livre.id}) }}" class="img">
+                    <img 
+                        src="{{ livre.image ? asset('uploads/livres/' ~ livre.image) : asset('client/img/product/placeholder.jpg') }}"
+                        width="60"
+                    >
+                </a>
+
+                <span class="product-title">{{ livre.titre }}</span>
+                <span class="amount">{{ livre.pu }} DT</span>
+
+                <div class="quantity">
+                    <button class="quantity-minus qut-btn">-</button>
+                    <input type="number" class="qty-input" value="{{ qty }}">
+                    <button class="quantity-plus qut-btn">+</button>
+                </div>
+
+                <div class="subtotal">
+                    <span>Subtotal:</span>
+                    <span class="amount">{{ (livre.pu * qty)|number_format(2) }} DT</span>
+                </div>
+            </li>
+        {% endfor %}
+    {% else %}
+        <li>Votre panier est vide</li>
+    {% endif %}
+</ul>
+
+<p class="total">
+    <strong>Total:</strong> {{ total|number_format(2) }} DT
+</p>
+
+<p class="buttons">
+    <a href="{{ path('client_panier') }}" class="vs-btn">Voir panier</a>
+    <a href="{{ path('client_caisse') }}" class="vs-btn checkout">Caisse</a>
+</p>

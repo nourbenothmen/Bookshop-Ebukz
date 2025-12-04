@@ -1,0 +1,10 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+stripe_webhook:
+    path: /webhook/stripe
+    controller: App\Controller\StripeWebhookController::handleWebhook
+    methods: [POST]

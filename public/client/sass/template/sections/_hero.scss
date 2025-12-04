@@ -1,0 +1,221 @@
+.hero-layout1{
+  background-color: $theme-color;
+  position: relative;
+  overflow: hidden;
+  .hero-content{
+      position: relative;
+      z-index: 1;
+      border-radius: 13px 0 0 13px;
+      .vs-btn2{
+          text-transform: uppercase;
+          border: 2px solid #65B047;
+          padding: 2px 5px 2px 28px;
+          background: rgb(23,167,191);
+          background: linear-gradient(85deg, rgba(23,167,191,1) 0%, rgba(103,184,70,1) 72%);
+          &:hover{
+              color: $title-color;
+              border-color: $theme-color;
+              i{
+                  color: $title-color;
+                  background-color: $white-color;
+              }
+          }
+      }
+  }
+  &.style2{
+    background-color: $white-color;
+    .hero-item{
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 100px 0;
+    }
+  }
+  
+}
+
+
+.hero-item{
+  position: relative;
+  padding: 170px 0 148px;
+}
+.hero-subtitle{
+  color: $theme-color;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: $title-font;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: end;
+  margin-bottom: 38px;
+  line-height: 150%;
+  .icon{
+      margin-right: 12px;
+  }
+}
+.hero-title{
+  font-size: 64px;
+  color: $title-color;
+  text-transform: capitalize;
+  line-height: 125%;
+  margin-bottom: 20px;
+  .title-highlight{
+      color: $theme-color;
+      position: relative;
+      &::after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 6px;
+        height: 2px;
+        background-color: $theme-color;
+
+      }
+  }
+}
+.hero-item2{
+  padding: 115px 0;
+  &.style2{
+      padding: 240px 0;
+      border-bottom: 5px solid $theme-color;
+  }
+}
+.hero-text{
+  font-size: 16px;
+  font-weight: 400;
+  color: $text-color;
+  text-transform: capitalize;
+  margin-bottom: 30px;
+  padding-right: 40px;
+}
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+}
+.hero-layout3{
+  position: relative;
+  max-height: 638px;
+  background: #F8EBE5;
+  background: linear-gradient(90deg, rgb(248, 235, 229) 0%, rgb(209 102 85 / 43%) 100%);
+  overflow: hidden;
+  .hero-item {
+    position: relative;
+    padding: 100px 0px 100px 335px;
+  }
+  .hero-img{
+    animation-delay: 0.5s;
+  }
+  .offer-price{
+    color: $text-color;
+    font-weight: 700;
+    font-size: 16px;
+    @extend .animated;
+    animation-delay: 0.5s;
+  }
+  .hero-content{
+    padding-left: 60px;
+  }
+  
+  .hero-title{
+    @extend .animated;
+    animation-delay: 0.5s;
+  }
+  .hero-text{
+    padding-right: 0;
+    @extend .animated;
+    animation-delay: 0.7s;
+  }
+  .vs-btn{
+    padding: 17px 36px;
+    @extend .animated;
+    animation-delay: 0.9s;
+  }
+    .slick-current {
+      --animation-name: slideinup;
+    }
+}
+
+
+ .element1 {
+    animation: sway-left 4s infinite ease-in-out;
+  }
+  .element2 {
+    animation: sway-left 6s infinite ease-in-out;
+  }
+
+
+
+
+@include ml{
+  .hero-layout3{
+    .hero-item2{
+      right: -30%;
+    }
+    .hero-item {
+      left: -360px;
+    }
+  }
+}
+
+@media (max-width: 1299px){
+  .hero-layout3{
+    height: auto;
+    overflow: hidden;
+    max-height: 100%;
+    padding: 80px 0;
+    .hero-item {
+      padding: 0;
+    }
+
+    .hero-content {
+      margin-left: 0px;
+      padding: 0;
+    }
+    .hero-btns {
+      bottom: 0;
+    }
+  }
+}
+@include md{
+  .hero-layout3{
+    .hero-title{
+      margin: 0;
+    }
+    .hero-item{
+      text-align: center;
+    }
+    .hero-content{
+      padding: 0;
+    }
+  }
+}
+@include sm{
+  .hero-title {
+    font-size: 52px;
+  }
+}
+
+@include xs{
+  .hero-title {
+    font-size: 32px;
+  }
+  .hero-item {
+    position: relative;
+    padding: 80px 0 80px;
+  }
+  .hero-layout1 .hero-content {
+    padding: 40px 0px 50px 30px;
+  }
+  .hero-layout1{
+    &.style2{
+       .hero-content {
+        padding: 0;
+      }
+    }
+  }
+}
+
+
+
+

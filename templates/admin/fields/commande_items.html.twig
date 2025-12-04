@@ -1,0 +1,30 @@
+{% if value is not empty %}
+    <table class="table table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Livre</th>
+                <th class="text-center">Qté</th>
+                <th class="text-end">Prix unitaire</th>
+                <th class="text-end">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in value %}
+                <tr>
+                    <td>{{ item.livre.titre }}</td>
+                    <td class="text-center">{{ item.quantite }}</td>
+                    <td class="text-end">{{ item.prixUnitaire }} DT</td>
+                    <td class="text-end">{{ (item.prixUnitaire * item.quantite)|number_format(2) }} DT</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="table-success">
+                <th colspan="3" class="text-end">Total commande :</th>
+                <th class="text-end">{{ entity.instance.total }} DT</th>
+            </tr>
+        </tfoot>
+    </table>
+{% else %}
+    <em>Aucun article</em>
+{% endif %}

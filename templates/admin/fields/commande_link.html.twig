@@ -1,0 +1,19 @@
+{# templates/admin/fields/commande_link.html.twig #}
+{% if entity.getCommande() is not null %}
+    {% set commande = entity.getCommande() %}
+    {% set url = ea_url()
+        .setController('App\\Controller\\Admin\\CommandeCrudController')
+        .setAction('detail')
+        .setEntityId(commande.id)
+    %}
+
+    <a href="{{ url }}" class="fw-bold text-primary">
+        #{{ commande.id }}
+    </a>
+    <small class="text-muted">
+        – {{ commande.prenom }} {{ commande.nom }}
+        <em>({{ commande.dateCommande|date('d/m/Y H:i') }})</em>
+    </small>
+{% else %}
+    <em class="text-danger">Commande supprimée</em>
+{% endif %}

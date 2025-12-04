@@ -1,0 +1,104 @@
+{# admin/livre/_form.html.twig #}
+<link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
+
+<style>
+  .form-card { border-radius: .5rem; box-shadow: 0 6px 18px rgba(0,0,0,.08); padding: 2rem; }
+  .form-label-fw { font-weight: 600; margin-bottom: .5rem; display: block; }
+  .img-preview { width: 96px; height: 96px; object-fit: cover; border-radius: .25rem; border: 1px solid #e9ecef; }
+  .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; cursor: pointer; }
+  .file-input-wrapper input[type=file] { position: absolute; top:0; right:0; margin:0; padding:0; font-size:100px; cursor:pointer; opacity:0; }
+  .field-errors { color: #dc3545; font-size: .875rem; margin-top:.25rem; margin-bottom: .5rem; }
+  .form-control, .select2 { margin-bottom: 1.5rem; width: 100%; }
+</style>
+
+<div class="card form-card mb-4">
+  <div class="card-body">
+    {{ form_start(form, { attr: { class: 'needs-validation', novalidate: 'novalidate' } }) }}
+
+      {# Titre #}
+      {{ form_label(form.titre, 'Titre', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.titre, { attr: { class: 'form-control form-control-lg', placeholder: 'Titre du livre' } }) }}
+      {{ form_errors(form.titre) }}
+
+      {# ISBN #}
+      {{ form_label(form.isbn, 'ISBN', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.isbn, { attr: { class: 'form-control form-control-lg', placeholder: 'Ex: 978-...' } }) }}
+      {{ form_errors(form.isbn) }}
+
+      {# Quantité #}
+      {{ form_label(form.qte, 'Quantité', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.qte, { attr: { class: 'form-control', min: 0 } }) }}
+      {{ form_errors(form.qte) }}
+
+      {# Prix #}
+      {{ form_label(form.pu, 'Prix (DT)', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      <div class="input-group">
+        {{ form_widget(form.pu, { attr: { class: 'form-control', step: '0.01', placeholder: '0.00' } }) }}
+        <span class="input-group-text">DT</span>
+      </div>
+      {{ form_errors(form.pu) }}
+
+      {# Date de publication #}
+      {{ form_label(form.datepub, 'Date de publication', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.datepub, { attr: { class: 'form-control' } }) }}
+      {{ form_errors(form.datepub) }}
+
+      {# Auteur #}
+      {{ form_label(form.auteurs, 'Auteur', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.auteurs, { attr: { class: 'form-control select2', placeholder: 'Sélectionner un auteur' } }) }}
+      {{ form_errors(form.auteurs) }}
+
+      {# Éditeur #}
+      {{ form_label(form.editeur, 'Éditeur', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.editeur, { attr: { class: 'form-control select2', placeholder: 'Sélectionner un éditeur' } }) }}
+      {{ form_errors(form.editeur) }}
+
+      {# Catégorie #}
+      {{ form_label(form.categorie, 'Catégorie', { label_attr: { class: 'form-label form-label-fw' } }) }}
+      {{ form_widget(form.categorie, { attr: { class: 'form-control select2', placeholder: 'Sélectionner une catégorie' } }) }}
+      {{ form_errors(form.categorie) }}
+
+      {# Image #}
+      {% if form.image is defined %}
+        {{ form_label(form.image, 'Image du livre', { label_attr: { class: 'form-label form-label-fw' } }) }}
+        <div class="d-flex align-items-center gap-3 mb-3">
+    <img id="imgPreview" src="{{ asset('admin/img/placeholder-96.png') }}" class="img-preview">
+    <div class="file-input-wrapper btn btn-outline-primary btn-sm">
+        <i class="fa fa-upload"></i> Choisir une image
+        {{ form_widget(form.image, { attr: { accept: 'image/*' } }) }}
+    </div>
+</div>
+<div class="form-text mb-3">Formats acceptés: jpg, png, webp — max 5MB</div>
+
+        {{ form_errors(form.image) }}
+      {% endif %}
+
+      <div class="mb-3">
+        <button class="btn btn-primary btn-lg">{{ button_label|default('Enregistrer') }}</button>
+      </div>
+
+    {{ form_end(form) }}
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      width: '100%',
+      placeholder: 'Sélectionner',
+      allowClear: true
+    });
+
+  const fileInput = document.querySelector('input[type=file][name$="[image]"]');
+const preview = document.getElementById('imgPreview');
+fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) { preview.src = ev.target.result; }
+    reader.readAsDataURL(file);
+});
+
+  });
+</script>

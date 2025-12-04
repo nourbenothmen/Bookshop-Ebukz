@@ -1,0 +1,13 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}Edit Editeur{% endblock %}
+
+{% block body %}
+    <h1>Edit Editeur</h1>
+
+    {{ include('admin/editeur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_editeur_index') }}">back to list</a>
+
+    {{ include('admin/editeur/_delete_form.html.twig') }}
+{% endblock %}

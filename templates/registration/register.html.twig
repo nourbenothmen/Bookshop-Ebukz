@@ -1,0 +1,60 @@
+{# templates/registration/register.html.twig #}
+{% extends 'client/base.html.twig' %}
+{% block title %}Inscription - Bookshop{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow rounded-4 border-0 p-4">
+                <h2 class="text-center mb-4 fw-bold text-primary">Créer un compte</h2>
+
+                {{ form_start(registrationForm) }}
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.prenom, {
+                            attr: { class: 'form-control', placeholder: 'Prénom' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.nom, {
+                            attr: { class: 'form-control', placeholder: 'Nom de famille' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.email, {
+                            attr: { class: 'form-control', placeholder: 'exemple@gmail.com' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Mot de passe',
+                            attr: { class: 'form-control', placeholder: 'Minimum 6 caractères' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'form-check-input' } }) }}
+                        {{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", { label_attr: { class: 'form-check-label' } }) }}
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                        S'inscrire
+                    </button>
+
+                {{ form_end(registrationForm) }}
+
+                <p class="text-center mt-4 text-muted">
+                    Déjà un compte ?
+                    <a href="{{ path('app_login') }}" class="text-primary fw-semibold">Se connecter</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

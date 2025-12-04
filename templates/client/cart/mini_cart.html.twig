@@ -1,0 +1,54 @@
+{# templates/client/cart/mini_cart.html.twig #}
+
+<div class="widget_shopping_cart_content">
+
+    {% if items|length > 0 %}
+        <ul class="cart_list product_list_widget">
+            {% for item in items %}
+                <li class="mini_cart_item">
+                    <!-- Bouton supprimer -->
+                    <a href="{{ path('client_panier_supprimer', {'id': item.livre.id}) }}" 
+                       class="remove remove_from_cart_button" 
+                       onclick="event.preventDefault(); removeFromMiniCart({{ item.livre.id }})">×</a>
+
+                    <!-- Image + titre -->
+                    <a href="{{ path('client_livre_show', {'id': item.livre.id}) }}">
+                        <img src="{{ asset('uploads/livres/' ~ item.livre.image) }}" 
+                             width="60" height="60" alt="{{ item.livre.titre }}">
+                        {{ item.livre.titre|length > 30 ? item.livre.titre|slice(0, 30) ~ '...' : item.livre.titre }}
+                    </a>
+
+                    <!-- Quantité × prix -->
+                    <span class="quantity">
+                        {{ item.quantite }} × <span class="amount">{{ item.livre.pu|number_format(2, ',', '.') }} DT</span>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <p class="total mt-3">
+            <strong>Sous-total :</strong>
+            <span class="amount">{{ total|number_format(2, ',', '.') }} DT</span>
+        </p>
+
+        <p class="buttons mt-3">
+            <a href="{{ path('client_panier') }}" class="vs-btn w-100 text-center">Voir le panier</a>
+        </p>
+
+    {% else %}
+        <p class="text-center py-4 text-muted">Votre panier est vide</p>
+    {% endif %}
+
+</div>
+
+<!-- Mise à jour du badge en haut à droite -->
+<script>
+// Met à jour le badge du header immédiatement
+document.addEventListener("DOMContentLoaded", function () {
+    const badge = document.querySelector('.header-cart .badge');
+    if (badge) {
+        badge.textContent = '{{ totalQuantity }}';
+        badge.style.display = totalQuantity > 0 ? 'block' : 'none';
+    }
+});
+</script>

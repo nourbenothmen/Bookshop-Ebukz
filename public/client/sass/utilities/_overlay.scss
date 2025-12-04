@@ -1,0 +1,106 @@
+.overlay,
+.overlay2,
+.overlay3,
+.overlay4,
+.overlay5,
+.overlay6,
+.overlay7 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.overlay2 {
+  background: linear-gradient(
+    90deg,
+    #01133c 48.92%,
+    rgba(1, 19, 60, 0) 119.11%
+  );
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.overlay3 {
+  background: linear-gradient(90deg, #01133c 41.07%, rgba(1, 19, 60, 0) 100%);
+  opacity: 0.9;
+}
+
+.overlay4 {
+  background-color: var(--title-color);
+  opacity: 0.85;
+}
+.overlay5 {
+  background: linear-gradient(
+    90deg,
+    #01133c 57.39%,
+    rgba(1, 19, 60, 0) 122.86%
+  );
+  opacity: 0.9;
+}
+.overlay6 {
+  opacity: 0.85;
+  background-color: var(--theme-color);
+}
+
+.overlay7 {
+  background: linear-gradient(90deg, #01133c 41.07%, rgba(1, 19, 60, 0) 100%);
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.position-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.element {
+  position: absolute;
+  width: 57%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: var(--theme-color);
+  clip-path: polygon(0 0, 100% 0, 74% 100%, 0% 100%);
+  z-index: -1;
+  @include respond-below(lg) {
+    width: 75%;
+  }
+  @include respond-below(sm) {
+    width: 100%;
+  }
+}
+
+[data-overlay] {
+  position: relative;
+  [class^="col-"],
+  [class*="col-"] {
+    z-index: 1;
+  }
+}
+
+[data-overlay]:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+@each $overlaycolorMap, $value in $overlaycolorMap {
+  [data-overlay="#{$overlaycolorMap}"]:before {
+    background-color: #{$value};
+  }
+}
+
+@for $i from 1 through 10 {
+  [data-opacity="#{1 * $i}"]:before {
+    opacity: #{$i * 0.1};
+  }
+}

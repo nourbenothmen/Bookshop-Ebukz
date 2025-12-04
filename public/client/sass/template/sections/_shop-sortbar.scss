@@ -1,0 +1,101 @@
+
+.vs-sort-bar {
+  margin-bottom: 40px;
+  select {
+    height: 50px;
+    border: 1px solid #eee;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    min-width: auto;
+    padding: 0 45px 0 25px;
+    font-size: 16px;
+    margin: 0;
+    background-position: right 22px center;
+  }
+  label {
+    font-size: 14px;
+    margin-bottom: 0;
+    margin-right: 15px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  p.woocommerce-result-count {
+    margin-bottom: 0;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: $body-font;
+    color: #2D2D2D;
+    span {
+      color: #2D2D2D;
+    }
+  }
+}
+
+.nice-select {
+  width: 100%;
+  min-width: 242px;
+  padding-right: 50px;
+  padding-left: 20px;
+  height: 52px;
+  line-height: 52px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: $title-font;
+  border: 1px solid var(--vs-border-color4);
+  color: $title-color;
+  background-color: $body-color;
+  &:hover{
+    color: $white-color;
+    background-color: $secondary-color;
+    &::after{
+      border-color: $white-color;
+    }
+  }
+  .current {
+    font-weight: 700;
+  }
+  .list {
+    width: 100%;
+    border-radius: 0;
+    margin-top: 0px;
+    border: 1px solid var(--vs-border-color4);
+    box-shadow: none;
+    font-size: 14px;
+    z-index: 2;
+    color: $title-color;
+    border-radius: 6px;
+    background-color: $body-color;
+    margin-bottom: 0;
+
+    .option.selected{
+      color: $white-color;
+      &:not(:hover){
+        color: $title-color;
+      }
+    }
+    .option:hover{
+      color: $white-color;
+      background-color: $secondary-color;
+    }
+  }
+  &::after {
+    border-bottom: 2px solid $title-color;
+    border-right: 2px solid $title-color;
+    height: 8px;
+    margin-top: -4px;
+    right: 25px;
+    width: 8px;
+  }
+
+  @include sm {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@include xs{
+  .nice-select{
+    min-width: 100%;
+  }
+}

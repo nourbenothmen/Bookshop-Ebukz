@@ -1,0 +1,131 @@
+{% extends 'client/base.html.twig' %}
+{% block title %}Mes emprunts - Bookshop{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4 text-primary fw-bold">
+        Mes emprunts
+    </h1>
+
+    {% if emprunts|length == 0 %}
+        <div class="alert alert-info text-center py-5">
+            <h4>Vous n'avez aucun emprunt en cours</h4>
+            <a href="{{ path('client_livre_index') }}" class="btn btn-primary btn-lg mt-3">
+                Découvrir les livres à emprunter
+            </a>
+        </div>
+    {% else %}
+        {% for emprunt in emprunts %}
+            <div class="card mb-4 shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+
+                        <!-- Image -->
+                        <div class="col-md-3 text-center">
+                            {% if emprunt.livre.image %}
+                                <img src="{{ asset('uploads/livres/' ~ emprunt.livre.image) }}"
+                                     alt="{{ emprunt.livre.titre }}"
+                                     class="img-fluid rounded-3 shadow-sm"
+                                     style="max-height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light border rounded-3 d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-book fa-4x text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Infos -->
+                        <div class="col-md-6">
+                            <h3 class="fw-bold text-dark">{{ emprunt.livre.titre }}</h3>
+                            <p class="text-muted mb-1">
+                                Emprunté le {{ emprunt.dateEmprunt|date('d/m/Y à H:i') }}
+                            </p>
+                            <p class="mb-2">
+                                <strong>À rendre avant le :</strong>
+                                <span class="text-danger fs-5 fw-bold">
+                                    {{ emprunt.dateRetourPrevue|date('d/m/Y') }}
+                                </span>
+                                {% if "now"|date('Y-m-d') > emprunt.dateRetourPrevue|date('Y-m-d') %}
+                                    <span class="badge bg-danger ms-2">En retard !</span>
+                                {% endif %}
+                            </p>
+                            <p class="mb-0">
+                                <strong>Frais :</strong> {{ emprunt.fraisEmprunt }} DT<br>
+                                <strong>Caution :</strong> {{ emprunt.caution }} DT
+                            </p>
+                        </div>
+
+                        <!-- STATUT + ACTIONS -->
+                        <div class="col-md-3 text-center text-md-end">
+
+                            {# Badge statut #}
+                            {% set badge = {
+                                'en_cours': 'bg-success',
+                                'retourne': 'bg-secondary',
+                                'attente_validation_cin': 'bg-warning text-dark',
+                                'attente_paiement': 'bg-info text-dark'
+                            }[emprunt.statut] ?? 'bg-secondary' %}
+                            <span class="badge fs-6 px-4 py-3 {{ badge }} d-block mb-3">
+                                {{ emprunt.statut|replace({'_': ' '})|title }}
+                            </span>
+
+                            {# Contenu selon le statut #}
+                            {% if emprunt.statut == 'attente_validation_cin' %}
+                                <p class="text-muted">En attente de validation C.I.N.</p>
+
+                            {% elseif emprunt.statut == 'attente_paiement' and emprunt.stripeSessionId %}
+                                <a href="https://checkout.stripe.com/c/pay/{{ emprunt.stripeSessionId }}"
+                                   target="_blank" class="btn btn-success btn-lg">
+                                    Payer maintenant
+                                </a>
+
+                            {% elseif emprunt.statut == 'en_cours' %}
+                                <p class="text-success fw-bold mb-3">Emprunt actif</p>
+
+                                {# ALERTE RETARD + EMAIL #}
+                                {% if "now"|date('Y-m-d') > emprunt.dateRetourPrevue|date('Y-m-d') %}
+                                    <div class="alert alert-danger rounded-4 p-4 text-center mb-4">
+                                        <h5 class="text-white mb-3">Vous êtes en retard !</h5>
+                                        <a href="mailto:noorbenothmen78@gmail.com
+                                            ?subject={{ 'Justification retard - ' ~ emprunt.livre.titre|u.url_encode }}
+                                            &body={{ 
+                                                ('Bonjour,%0A%0AJe suis en retard pour le livre :%0A' ~
+                                                 'Titre : ' ~ emprunt.livre.titre ~ '%0A' ~
+                                                 'Emprunté le : ' ~ emprunt.dateEmprunt|date('d/m/Y') ~ '%0A' ~
+                                                 'À rendre le : ' ~ emprunt.dateRetourPrevue|date('d/m/Y') ~ '%0A%0A' ~
+                                                 'Raison de mon retard :%0A%0A[Écrivez ici]%0A%0A' ~
+                                                 'Merci,%0A' ~ emprunt.emprunteur.prenom ~ ' ' ~ emprunt.emprunteur.nom
+                                                )|url_encode }}"
+                                           class="btn btn-warning btn-lg">
+                                            Justifier par e-mail
+                                        </a>
+                                        <small class="d-block mt-2 text-white-50">
+                                            Réponse sous 24h
+                                        </small>
+                                    </div>
+                                {% endif %}
+
+
+                            {% elseif emprunt.statut == 'retourne' %}
+                                <div class="text-center">
+                                    <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                                    <p class="fw-bold text-success">Livre retourné</p>
+                                  <small class="text-muted">
+    Retourné le 
+    {% if emprunt.dateRetourReel %}
+        <strong>{{ emprunt.dateRetourReel|format_datetime('none', 'short', locale='fr') }}</strong>
+    {% else %}
+        date inconnue
+    {% endif %}
+</small>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

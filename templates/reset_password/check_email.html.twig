@@ -1,0 +1,39 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Password Reset Email Sent{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h4 class="mb-0"><i class="bi bi-envelope-fill me-2"></i>Password Reset Sent</h4>
+                </div>
+                <div class="card-body p-4">
+                    <p class="lead text-center mb-4">
+                        An email has been sent with instructions to reset your password.
+                    </p>
+
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-clock me-2 fs-4"></i>
+                        <div>
+                            This link will expire in <strong>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</strong>.
+                        </div>
+                    </div>
+
+                    <p class="text-center mb-3">
+                        Didn't receive the email? Check your spam folder or <a href="{{ path('app_forgot_password_request') }}" class="text-decoration-underline">try again</a>.
+                    </p>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Back to Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

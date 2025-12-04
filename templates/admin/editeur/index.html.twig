@@ -1,0 +1,55 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}Liste des Éditeurs{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Liste des Éditeurs</h1>
+        <br>
+        <a href="{{ path('admin_editeur_new') }}" class="btn btn-success">
+            <i class="fa fa-plus me-1"></i> Créer un nouvel éditeur
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Pays</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for editeur in editeurs %}
+                <tr>
+                    <td>{{ editeur.id }}</td>
+                    <td>{{ editeur.nom }}</td>
+                    <td>{{ editeur.pays }}</td>
+                    <td>{{ editeur.adresse }}</td>
+                    <td>{{ editeur.telephone }}</td>
+                    <td class="text-center">
+                        <a href="{{ path('admin_editeur_show', {'id': editeur.id}) }}" class="btn btn-info btn-sm me-1">
+                            <i class="fa fa-eye"></i> Voir
+                        </a>
+                        <a href="{{ path('admin_editeur_edit', {'id': editeur.id}) }}" class="btn btn-primary btn-sm">
+                            <i class="fa fa-edit"></i> Modifier
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Aucun éditeur trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

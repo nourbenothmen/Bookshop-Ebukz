@@ -1,0 +1,36 @@
+{# templates/admin/fields/retard.html.twig #}
+
+{% if emprunt is null %}
+    <span class="text-muted">—</span>
+
+{% elseif emprunt.statut == 'retourne' and emprunt.dateRetourReel %}
+    <span class="text-success fw-bold">
+        <i class="fa fa-check-circle"></i>
+        Retourné le <strong>{{ emprunt.dateRetourReel|date('d/m/Y à H\\hi') }}</strong>
+    </span>
+
+{% elseif emprunt.statut == 'en_cours' %}
+    {% if emprunt.dateRetourPrevue > date() %}
+        <span class="text-success fw-bold">
+            <i class="fa fa-clock"></i> À l'heure
+        </span>
+    {% else %}
+        {% set retard = date().diff(emprunt.dateRetourPrevue) %}
+        <span class="text-danger fw-bold">
+            <i class="fa fa-exclamation-triangle"></i>
+            Retard :
+            {% if retard.days > 0 %}
+                {{ retard.days }} jour{{ retard.days > 1 ? 's' : '' }}
+            {% endif %}
+            {% if retard.h > 0 %}
+                {% if retard.days > 0 %} et {% endif %}
+                {{ retard.h }} heure{{ retard.h > 1 ? 's' : '' }}
+            {% endif %}
+            {% if retard.days == 0 and retard.h == 0 %}
+                moins d’une heure
+            {% endif %}
+        </span>
+    {% endif %}
+{% else %}
+    <span class="text-muted">—</span>
+{% endif %}

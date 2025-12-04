@@ -1,0 +1,514 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Accueil Client{% endblock %}
+
+{% block body %}
+
+ <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
+    <!--********************************
+   		Code Start From Here 
+	******************************** -->
+    <!--==============================
+	Preloader
+	==============================-->
+    <div class="preloader">
+      <button class="vs-btn preloaderCls">Cancel Preloader</button>
+      <div class="preloader-inner">
+        <img src="{{ asset('client/img/dark-logo.svg')}}" alt="logo" />
+        <span class="loader"></span>
+      </div>
+    </div>
+    <button class="back-to-top" id="backToTop" aria-label="Back to Top">
+      <span class="progress-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"></circle>
+          <circle class="progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+        <span class="progress-percentage" id="progressPercentage">0%</span>
+      </span>
+    </button>
+    <!--==============================
+    	Mobile Menu
+  	============================== -->
+    <div class="vs-menu-wrapper">
+      <div class="vs-menu-area text-center">
+        <div class="mobile-logo">
+          <a href="{{ path('app_home') }}"
+            ><img src="{{ asset('client/img/logo.svg')}}" alt="ebukz" class="logo"
+          /></a>
+          <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
+        </div>
+        <div class="vs-mobile-menu">
+          <ul>
+            <li class="menu-item-has-children">
+              <a href="{{ path('app_home') }}">Accueil </a>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="{{ path('client_livre_index') }}">Livres</a>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="#">Editeurs</a>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="{{ path('app_register') }}">Inscription</a>
+            </li>
+            <li>
+              <a href="{{ path('app_login') }}">Conexion</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--==============================
+    Popup Search Box
+    ============================== -->
+    <div class="popup-search-box d-none d-lg-block">
+      <button class="searchClose"><i class="fal fa-times"></i></button>
+      <form action="#">
+        <input
+          type="text"
+          class="border-theme"
+          placeholder="What are you looking for"
+        />
+        <button type="submit"><i class="fal fa-search"></i></button>
+      </form>
+    </div>
+    <!--==============================
+        Header Area
+    ==============================-->
+ {# Inclusion du header #}
+ {% include 'partials/header.html.twig' with { categorie: categorie } %}
+
+    <!--==============================
+  Hero Area
+  ==============================-->
+    <section class="hero-layout1" data-wow-delay="0.25s" aria-hidden="true">
+      <div class="hero-item" data-bg-src="{{ asset('client/img/bg/hero-bg1.jpg')}}">
+        <div class="container position-relative z-index">
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-6 position-relative">
+              <div class="hero-content">
+                <h1
+                  class="hero-title wow animate__fadeInUp"
+                  data-wow-delay="0.50s"
+                >
+                  La plus grande
+                  <span class="title-highlight">librairie</span> en tunisie
+                </h1>
+                <p
+                  class="hero-text wow animate__fadeInUp"
+                  data-wow-delay="0.75s"
+                >
+                  Nous livrons des livres partout dans le territoires tunsien. Plus de 10 000 livres en stock.
+                </p>
+                <a
+                  class="vs-btn wow animate__flipInX"
+                  data-wow-delay="0.95s"
+                  href="#"
+                  >Explorez davantage</a
+                >
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="hero-img">
+                <img src="{{ asset('client/img/hero/books.png')}}" alt="hero image" class="no-wow">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span
+        class="shape-mockup element1 z-index1 d-xxl-block d-none"
+        data-wow-delay="0.80s"
+        style="right: 0px; top: -10px"
+        ><img src="{{ asset('client/img/shapes/hero-shape2.svg')}}" alt="Hero shape"
+      /></span>
+      <span
+        class="shape-mockup element2 z-index1 d-xxl-block d-none"
+        data-wow-delay="0.80s"
+        style="left: 0px; bottom: -10px"
+        ><img src="{{ asset('client/img/shapes/hero-shape3.svg')}}" alt="Hero shape"
+      /></span>
+      <span
+        class="shape-mockup z-index1 wow animate__fadeInLeft d-xxl-block d-none"
+        data-wow-delay="0.80s"
+        style="left: 0px; top: 0px"
+        ><img src="{{ asset('client/img/shapes/hero-shape1.svg')}}" alt="Hero shape"
+      /></span>
+    </section>
+    <!-- Trending Product Start -->
+<section class="trending-layout1 space">
+    <div class="container">
+        <div class="title-area2 animation-style1 title-anime">
+            <span class="border-line d-xxl-block d-none"></span>
+            <h2 class="sec-title title-anime__title">
+                Top ventes {{ moisActuel }}
+                <span class="text-primary small d-block mt-2">Meilleures ventes du mois en cours</span>
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            {% for livre in topThisMonth %}
+            <div class="col-xl-2 col-md-4 col-sm-6">
+                <div class="product-style1 wow animate__fadeInUp" data-wow-delay="0.{{ loop.index }}s">
+                    <div class="product-img">
+                        {% if livre.image %}
+                            <img src="{{ asset('uploads/livres/' ~ livre.image) }}" alt="{{ livre.titre }}" />
+                        {% else %}
+                            <img src="{{ asset('client/img/product/default-book.jpg') }}" alt="Livre" />
+                        {% endif %}
+                        <div class="product-btns">
+                            <a href="#" class="icon-btn wishlist"><i class="far fa-heart"></i></a>
+                            <a href="#" class="icon-btn cart"><i class="fa-solid fa-basket-shopping"></i></a>
+                        </div>
+                        <div class="post-box">
+                            <li class="bg-success">Top {{ loop.index }}</li>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h2 class="product-title fs-6">
+                            <a href="{{ path('client_livre_show', {id: livre.id}) }}">{{ livre.titre|u.truncate(40) }}</a>
+                        </h2>
+                        <ul class="price-list">
+                            <li class="text-primary fw-bold">{{ livre.pu|number_format(2) }} DT</li>
+                        </ul>
+                        <small class="text-success">{{ livre.ventes }} vente{{ livre.ventes > 1 ? 's' : '' }} ce mois</small>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">Aucune vente ce mois-ci</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Top du mois précédent (optionnel mais classe) -->
+        {% if topLastMonth|length > 0 %}
+        <div class="mt-5">
+            <h3 class="text-center text-muted mb-4">Top du mois précédent ({{ moisPrecedent }})</h3>
+            <div class="row g-4">
+                {% for livre in topLastMonth %}
+                <div class="col-xl-2 col-md-4 col-sm-6">
+                    <div class="product-style1 opacity-75">
+                        <div class="product-img">
+                            {% if livre.image %}
+                                <img src="{{ asset('uploads/livres/' ~ livre.image) }}" alt="{{ livre.titre }}" />
+                            {% else %}
+                                <img src="{{ asset('client/img/product/default-book.jpg') }}" alt="Livre" />
+                            {% endif %}
+                        </div>
+                        <div class="product-content text-center">
+                            <small class="text-muted">#{{ loop.index }} {{ livre.titre|u.truncate(30) }}</small>
+                            <br><small class="text-muted">{{ livre.ventes }} vente{{ livre.ventes > 1 ? 's' : '' }}</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+    <!-- Trending Product End -->
+    <!-- Top Categories Start -->
+    <section
+      class="categories-layout1 space"
+      data-bg-src="{{ asset('client/img/bg/categorie-bg1.jpg')}}"
+    >
+      <div class="container">
+        <div class="title-area text-center animation-style1 title-anime">
+          <h2 class="sec-title title-anime__title">Tous les Categories</h2>
+        </div>
+         <div class="row g-4 mb-40 filter-menu-active">
+    {% for cat in categorie %}
+    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+        <div class="categorie-style1 wow animate__fadeInUp">
+            <h4 class="categorie-title">{{ cat.designation }}</h4>
+        </div>
+    </div>
+    {% else %}
+    <p>Aucune catégorie trouvée</p>
+    {% endfor %}
+</div>
+
+{# Pagination des catégories #}
+<div class="pagination-area text-center">
+{{ knp_pagination_render(categorie, null, {'pageParameterName': 'page_categories'}) }}
+    
+</div>
+<div class="container">
+    <div class="title-area text-center animation-style1 title-anime">
+        <h2 class="sec-title title-anime__title">Livres en promotion</h2>
+    </div>
+
+    <div class="row gy-30 mb-40 filter-active">
+        {% for promo in promotions %}
+        <div class="col-xl-4 col-lg-6 col-md-6 filter-item fantasy adventure">
+            <div class="product-style1 style2 wow animate__fadeInUp" data-wow-delay="0.2s">
+                <div class="product-img">
+                    <img src="{{ asset('uploads/livres/' ~ promo.livre.image) }}" alt="{{ promo.livre.titre }}">
+                    <div class="product-btns">
+                        <a href="#" class="icon-btn wishlist"><i class="far fa-heart"></i></a>
+                    </div>
+                    <ul class="post-box">
+                        <li>Hot</li>
+                        <li>-{{ promo.pourcentage }}%</li>
+                    </ul>
+                </div>
+                <div class="product-content">
+                    <div class="star-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="product-author"><strong>By:</strong> {{ promo.livre.editeur.nom }}</span>
+                    <h2 class="product-title"><a href="#">{{ promo.livre.titre }}</a></h2>
+                    <ul class="price-list">
+                        <li><del>{{ promo.livre.pu }} DT</del></li>
+                        <li>{{ (promo.livre.pu * (1 - promo.pourcentage/100))|number_format(2) }} DT</li>
+                    </ul>
+                    <div class="product-btn">
+                        <a class="vs-btn" href="{{ path('client_panier_ajouter', {'id': promo.livre.id}) }}">Ajouter au panier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p>Aucune promotion pour aujourd'hui.</p>
+        {% endfor %}
+    </div>
+</div>
+
+    </section>
+    <!-- Top Categories End -->
+    <!-- Editeurs Start -->
+<section class="vendor-layout1 space-top space-extra-bottom">
+    <div class="container">
+        <div class="row gy-30 mb-20">
+
+            {% for editeur in editeurs %}
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="vendor-style1 wow animate__fadeInUp" data-wow-delay="0.20s">
+                        <div class="vendor-body">
+                            <div class="vendor-inner">
+                                <span class="vendor-icon">
+                                    <img src="{{ asset('client/img/vendor/user.png') }}" style="width:100px; height:100px; object-fit:cover;"  alt="vendor image" />
+                                </span>
+                                <div>
+                                    <h6 class="vendor-title">
+                                        <a href="{{ path('client_editeur_show', { id: editeur.id }) }}">
+                                            {{ editeur.nom }}
+                                        </a>
+                                    </h6>
+                                    <div class="star-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-style1">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <i class="fas fa-map-marked-alt"></i> {{ editeur.adresse }}
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-envelope"></i> {{ editeur.pays }}
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-headset"></i> {{ editeur.telephone }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="{{ path('client_editeur_show', { id: editeur.id }) }}" class="icon-btn">
+                                <i class="fa-regular fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+{# Pagination des éditeurs #}
+<div class="pagination-area text-center">
+   {{ knp_pagination_render(editeurs, null, {'pageParameterName': 'page_editeurs'}) }}
+
+
+</div>
+</section>
+<!-- Editeurs End -->
+   
+ 
+    <!-- Book Of The Month End -->
+    <!-- Testimonial Area  -->
+    <section class="vs-testi__layout1 space">
+      <div class="container">
+        <div class="row g-5">
+          <div class="col-xl-5">
+            <div class="banner-img">
+              <img src="{{ asset('client/img/others/banner1.jpg')}}" alt="banner image" />
+              <div class="banner-content">
+                <span class="sub-title">Best offer</span>
+                <h2 class="banner-title">Save Up to $15</h2>
+                <a class="vs-btn" href="#">Shop Now</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-7">
+            <div class="vs-testi__inner">
+              <div
+                class="title-area text-left wow animate__fadeInUp title-anime animation-style5"
+                data-wow-delay="0.25s"
+              >
+                <span
+                  class="sec-subtitle left-shape justify-content-center title-anime__title"
+                  >Testimonials</span
+                >
+                <h2 class="sec-title title-anime__title">
+                  What Our Client's Feedback And review
+                </h2>
+                <p class="sec-text">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                  eiusmod tempor inc ididunt ut labore et dolore magna aliqua.
+                </p>
+              </div>
+              <div
+                class="vs-testi__items wow animate__fadeInUp"
+                data-wow-delay="0.35s"
+              >
+                <div
+                  class="vs-carousel testi-slider"
+                  data-autoplay="true"
+                  data-fade="true"
+                >
+                  {% for testimonial in [
+                    {name: 'rodja hartmann', rating: 4, image: 'testi-1-1.jpg'},
+                    {name: 'alaxander pall', rating: 5, image: 'testi-1-1.jpg'}
+                  ] %}
+                  <div class="vs-testi__style1">
+                    <span class="vs-testi__icon"
+                      ><img src="{{ asset('client/img/icons/quote-icon.svg')}}" alt="icon"
+                    /></span>
+                    <div class="vs-testi__top">
+                      <div class="vs-testi__image">
+                        <img
+                          class="img1"
+                          src="{{ asset('client/img/testimonial/' ~ testimonial.image)}}"
+                          alt="testimonials"
+                        />
+                      </div>
+                      <div class="vs-testi__author">
+                        <div class="star-rating">
+                          {% for star in 1..5 %}
+                            <i class="fa-{{ star <= testimonial.rating ? 'solid' : 'regular' }} fa-star"></i>
+                          {% endfor %}
+                        </div>
+                        <h3 class="vs-testi__title">{{ testimonial.name }}</h3>
+                        <span class="vs-testi__desi"
+                          >Designer, Soumya.Devsoft</span
+                        >
+                      </div>
+                    </div>
+                    <div class="vs-testi__content">
+                      <p class="vs-testi__text">
+                        <span class="text-highlight"
+                          ><img
+                            class="icon"
+                            src="{{ asset('client/img/testimonial/testi-icon1.png')}}"
+                            alt="icon"
+                          />
+                          Lorem ipsum dolor sit a met!</span
+                        >
+                        "When you work with Los Angeles House Cleaners Refal
+                        Agen cleaning room breathe easy because your home will
+                        soon When you work with Angeles House Cleaners Referal
+                        Agency cleaning breathe"
+                      </p>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div
+                class="custom-arraw wow animate__fadeInUp"
+                data-wow-delay="0.45s"
+              >
+                <div
+                  class="icon-arraw slick-prev"
+                  data-slick-prev=".testi-slider"
+                >
+                  <button class="icon-btn">
+                    <i class="fa-regular fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div
+                  class="icon-arraw slick-next"
+                  data-slick-next=".testi-slider"
+                >
+                  <button class="icon-btn">
+                    <i class="fa-regular fa-arrow-left"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Testimonial Area End  -->
+
+	
+     {# Inclusion du footer #}
+    {{ include('partials/footer.html.twig') }}
+    <!--********************************
+			Code End  Here 
+	******************************** -->
+    <!--==============================
+        All Js File
+    ============================== -->
+    <!-- Jquery -->
+    <script src="{{ asset('client/js/vendor/jquery-3.7.1.min.js')}}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('client/js/bootstrap.min.js')}}"></script>
+    <!-- Slick Slider -->
+    <script src="{{ asset('client/js/slick.min.js')}}"></script>
+    <!-- Magnific Popup -->
+    <script src="{{ asset('client/js/jquery.magnific-popup.min.js')}}"></script>
+    <!-- imagesloaded -->
+    <script src="{{ asset('client/js/imagesloaded.pkgd.min.js')}}"></script>
+    <!-- Isotope Filter -->
+    <script src="{{ asset('client/js/isotope.pkgd.min.js')}}"></script>
+    <!-- Gsap -->
+    <script src="{{ asset('client/js/gsap.min.js')}}"></script>
+    <!-- ScrollTrigger -->
+    <script src="{{ asset('client/js/ScrollTrigger.min.js')}}"></script>
+    <!-- Gsap ScrollTo Plugin -->
+    <script src="{{ asset('client/js/gsap-scroll-to-plugin.js')}}"></script>
+    <!-- Split Text -->
+    <script src="{{ asset('client/js/SplitText.js')}}"></script>
+    <!-- lenis -->
+    <script src="{{ asset('client/js/lenis.min.js')}}"></script>
+    <!-- wow js -->
+    <script src="{{ asset('client/js/wow.min.js')}}"></script>
+    <!-- nice-select -->
+    <script src="{{ asset('client/js/jquery.nice-select.min.js')}}"></script>
+    <!-- nouislider -->
+    <script src="{{ asset('client/js/nouislider.min.js')}}"></script>
+    <!-- Main Js File -->
+    <script src="{{ asset('client/js/main.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+.selling-title{
+    color: $white-color;
+    line-height: 125%;
+    margin-bottom: 35px;
+}
+.selling-text{
+    color: $white-color;
+    margin-bottom: 32px;
+}
+.selling-layout1{
+    .author-name{
+        color: $white-color;
+        line-height: 132%;
+        margin-bottom: 5px;
+    }
+    .published{
+        color: $theme-color;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: $title-font;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    .vs-btn{
+        letter-spacing: 1px;
+        &::after,
+        &::before{
+            background-color: $white-color;
+        }
+        &:hover{
+            color: $title-color;
+            background-color: $white-color;
+        }
+    }
+    .tag{
+        display: inline-flex;
+        align-items: center;
+        background-color: $white-color;
+        border-left: 4px solid $theme-color;
+        border-right: 4px solid $theme-color;
+        padding: 20px 30px;
+        max-width: 320px;
+        width: 100%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        img{
+            margin-right: 20px;
+        }
+        .tag-title{
+            margin: 0;
+            font-size: 20px;
+        }
+    }
+}
+.selling-img-tag{
+    position: relative;
+    padding-top: 50px;
+}
+.selling-books{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@include lg{
+    .selling-books{
+        grid-template-columns: repeat(4, 1fr);
+        .book-item {
+            text-align: center;
+        }
+    }
+}
+@media only screen and (max-width: 399px){
+    .selling-books{
+        grid-template-columns: repeat(2, 1fr);
+        .book-item{
+            img{
+                width: 100%;
+            }
+        }
+    }
+    .selling-layout1 .tag {
+        padding: 20px;
+    }
+}
+

@@ -1,0 +1,324 @@
+.widget-area {
+  padding-top: 120px;
+  padding-bottom: 93px;
+}
+
+.widget-area2 {
+  padding-top: 60px;
+}
+
+.footer-widget {
+  &,
+  .widget {
+    padding: 0;
+    border: none;
+    padding-bottom: 0;
+    background-color: transparent;
+  }
+
+  .widget_title {
+    border: none;
+    font-size: 24px;
+    margin: 0 0 30px 0;
+    padding: 0 0 15px 0;
+    color: $white-color;
+    position: relative;
+    text-align: left;
+    &::before{
+      content: "";
+      position: absolute;
+    }
+    &::before {
+      width: 52px;
+      height: 4px;
+      background-color:$theme-color;
+      left: 0;
+      bottom: 0;
+      border-radius: 2px;
+    }
+  }
+
+  .vs-btn {
+    background-color: $theme-color;
+    &::before,
+    &::after {
+      background-color: var(--theme-color);
+    }
+  }
+
+  // &.widget_meta,
+  // &.widget_pages,
+  // &.widget_archive,
+  // &.widget_categories,
+  &.widget_nav_menu {
+    margin-bottom: 30px;
+    text-align: left;
+
+    .widget_title {
+      margin-bottom: 30px;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+      border: none;
+      font-family: $body-font;
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 7px;
+      max-width: 100%;
+      padding: 0 0 0 0px;
+      color: $white-color;
+      background-color: transparent;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      min-height: auto;
+      line-height: 1.625;
+      i{
+        color: $white-color;
+        transition: all 0.5s ease;
+      }
+      &::before {
+        position: absolute;
+        content: "";
+        width: 0%;
+        height: 1px;
+        background-color: $body-color;
+        bottom: 0;
+        right: 0;
+        @include smooth-transition;
+      }
+      &:hover {
+        color: $theme-color;
+        background-color: transparent;
+        transform: translateX(5px);
+        &::before {
+          width: 100%;
+          left: 0;
+          background-color: $theme-color;
+        }
+        i{
+          color: $theme-color
+        }
+      }
+    }
+
+    li {
+      > span {
+        @include equal-size(auto);
+        position: relative;
+        background-color: transparent;
+        color: $body-color;
+        line-height: 1;
+      }
+
+      &:last-child {
+        a {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .sidebar-gallery {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    a {
+      overflow: hidden;
+      border-radius: 0px;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--theme-color);
+        z-index: 1;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all ease 0.4s;
+        transition: all ease 0.4s;
+      }
+      img {
+        border-radius: 5px;
+        transition: 0.4s ease-in-out;
+      }
+      .gal-btn {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: scale(1.5);
+        width: var(--icon-size, 35px);
+        height: var(--icon-size, 35px);
+        line-height: calc(var(--icon-size, 35px) + 2px);
+        margin: calc(var(--icon-size, 35px) / -2) 0 0
+          calc(var(--icon-size, 35px) / -2);
+        text-align: center;
+        font-size: 18px;
+        color: var(--white-color);
+        background-color: transparent;
+        border-radius: 50%;
+        transition: all ease 0.4s;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 3;
+      }
+      &:hover {
+        img {
+          transform: scale(1.12);
+        }
+        &::before {
+          opacity: 0.8;
+          visibility: visible;
+        }
+        .gal-btn {
+          opacity: 1;
+          visibility: visible;
+          -webkit-transition-delay: 0.1s;
+          transition-delay: 0.1s;
+          &:hover {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            background-color: var(--white-color);
+            color: var(--theme-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+.vs-widget-about {
+  .footer-text {
+    max-width: 275px;
+    font-family: $body-font;
+    font-size: 16px;
+  }
+}
+
+.footer-insta-image {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.social-style1 {
+  a {
+    margin-right: 18px;
+    color: $white-color;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    @include smooth-transition;
+    &:hover {
+      color: $theme-color;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.footer-contact {
+  .menu {
+    a {
+      padding-left: 24px;
+
+      i {
+        font-size: 14px;
+        top: 5px;
+      }
+    }
+  }
+}
+
+.footer-widget {
+  // .newsletter-form {
+  //   .form_text {
+  //     font-size: 16px;
+  //     font-family: $body-font;
+  //   }
+  //   .form-control {
+  //     margin-bottom: 15px;
+  //     background-color: transparent;
+  //     height: 46px;
+  //     &:focus {
+  //       color: $white-color;
+  //     }
+  //   }
+  //   .vs-btn {
+  //     width: unset;
+  //   }
+  // }
+  .widget_title::before{
+    display: none;
+  }
+}
+
+@include lg {
+  .footer-widget {
+    margin-bottom: 30px;
+
+    .widget_title {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    // &.widget_meta,
+    // &.widget_pages,
+    // &.widget_archive,
+    &.widget_categories,
+    &.widget_nav_menu {
+      .widget_title {
+        margin-bottom: 25px;
+      }
+
+      // a {
+      //   font-size: 14px;
+      // }
+    }
+  }
+}
+
+@include md {
+  .footer-widget {
+    .widget_title {
+      font-size: 22px;
+    }
+  }
+  .widget-area2 {
+    padding-bottom: 20px;
+  }
+}
+
+.widget {
+  &__schedule {
+    & > ul {
+      padding-left: 0;
+      margin-bottom: 0;
+      & > li {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        color: var(--white-color);
+        gap: 43px;
+        margin-bottom: 6px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        & > span {
+          color: var(--white-color);
+          & > span {
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}

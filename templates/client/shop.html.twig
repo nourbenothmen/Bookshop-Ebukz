@@ -1,0 +1,345 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Accueil Client{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+/* === Sidebar Filters === */
+.sidebar-widget {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.sidebar-widget h4 {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Custom checkbox */
+input.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #ff9800;
+}
+input.custom-checkbox:checked {
+    accent-color: #ff7300;
+}
+input.custom-checkbox + label {
+    font-weight: 500;
+    color: #333;
+}
+
+/* === Product Cards === */
+.product-style1 {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+.product-style1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.product-img {
+    position: relative;
+    overflow: hidden;
+}
+.product-img img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+.product-style1:hover .product-img img {
+    transform: scale(1.05);
+}
+
+/* Badges */
+.product-badges {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.product-badges .badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+/* Buttons overlay */
+.product-btns {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    gap: 8px;
+}
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+.icon-btn:hover {
+    background: #ff9800;
+    color: #fff;
+}
+
+/* Product content */
+.product-content {
+    padding: 15px;
+    text-align: center;
+}
+.product-title a {
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+}
+.product-title a:hover {
+    color: #ff9800;
+}
+
+/* Price & Emprunt */
+.price-wrapper .fs-4 {
+    font-weight: bold;
+    color: #007bff;
+}
+.price-wrapper .fs-3 {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Rating */
+.rating-stars li {
+    display: inline-block;
+    margin-right: 2px;
+}
+
+/* Buttons Emprunt */
+.btn-emprunt-bloque, .btn-secondary {
+    width: 100%;
+}
+
+/* Pagination */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Hover effect on card footer */
+.product-content:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+{# Header + Breadcrumb conservés #}
+{% include 'partials/header.html.twig' with { categorie: categorie } %}
+
+<div class="breadcumb-wrapper" data-bg-src="{{ asset('client/img/bg/bg-site.png') }}">
+  <div class="container z-index-common">
+    <div class="breadcumb-content">
+      <h1 class="breadcumb-title">Livres</h1>
+      <div class="breadcumb-menu-wrap">
+        <div class="breadcumb-menu">
+          <span><a href="{{ path('app_home') }}">Accueil</a></span>
+          <span>Livres</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="books-layout1 space-top space-extra-bottom">
+<div class="container">
+<div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3">
+        <div class="sidebar-widget">
+            <h4>Filtrer par catégories</h4>
+            <form method="get">
+                {% for cat in categorie %}
+                <div class="form-check">
+                    <input class="form-check-input custom-checkbox" type="checkbox" name="categories[]" value="{{ cat.id }}" id="cat-{{ cat.id }}"
+                    {% if cat.id in selected_categories %}checked{% endif %}>
+                    <label class="form-check-label" for="cat-{{ cat.id }}">{{ cat.designation }}</label>
+                </div>
+                {% endfor %}
+
+                <h4 class="mt-4">Filtrer par auteurs</h4>
+                {% for auteur in auteurs %}
+                <div class="form-check">
+                    <input type="checkbox" class="custom-checkbox" id="auteur-{{ auteur.id }}" name="auteurs[]" value="{{ auteur.id }}"
+                    {% if auteur.id in selected_auteurs %}checked{% endif %}>
+                    <label for="auteur-{{ auteur.id }}">{{ auteur.prenom }} {{ auteur.nom }}</label>
+                </div>
+                {% endfor %}
+
+                <h4 class="mt-4">Filtrer par prix</h4>
+                <label>Min:</label>
+                <input type="number" name="min_price" class="form-control" value="{{ min_price ?? '' }}">
+                <label>Max:</label>
+                <input type="number" name="max_price" class="form-control" value="{{ max_price ?? '' }}">
+
+                <button type="submit" class="btn btn-primary mt-3 w-100">Filtrer</button>
+                <a href="{{ path('client_livre_index') }}" class="btn btn-secondary mt-2 w-100">Réinitialiser</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="col-lg-9">
+        <div class="row g-4">
+        {% for livre in livres %}
+            <div class="col-xl-3 col-md-4 col-sm-6">
+                <div class="product-style1 wow animate__fadeInUp" data-wow-delay="0.{{ loop.index }}s">
+                    <div class="product-img">
+                        <img src="{{ livre.image ? asset('uploads/livres/' ~ livre.image) : asset('client/img/product/placeholder.jpg') }}" alt="{{ livre.titre }}">
+                        <div class="product-badges">
+                            {% if livre.quantiteEnStock > 0 %}
+                            <span class="badge bg-success">Disponible</span>
+                            {% else %}
+                            <span class="badge bg-danger">Stock épuisé</span>
+                            {% endif %}
+                        </div>
+                        <div class="product-btns">
+                            {% if app.user and livre in app.user.wishlistLivres ?? [] %}
+                                <a href="{{ path('client_wishlist_index') }}" class="icon-btn wishlist text-danger" title="Dans wishlist"><i class="fas fa-heart"></i></a>
+                            {% else %}
+                                <form method="post" action="{{ path('client_wishlist_ajouter', {'id': livre.id}) }}" class="d-inline">
+                                    <button type="submit" class="icon-btn wishlist text-muted" title="Ajouter à la wishlist"><i class="far fa-heart"></i></button>
+                                </form>
+                            {% endif %}
+                            <a href="{{ path('client_livre_show', {'id': livre.id}) }}" class="icon-btn eye"><i class="far fa-eye"></i></a>
+                            {% if livre.quantiteEnStock > 0 %}
+                                <a href="{{ path('client_panier_ajouter', {'id': livre.id}) }}" class="icon-btn cart"><i class="fa-solid fa-basket-shopping"></i></a>
+                            {% else %}
+                                <a class="icon-btn cart disabled"><i class="fa-solid fa-basket-shopping"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="product-content">
+                       <!-- ⭐ SYSTEME DE RATING + AVIS ⭐ -->
+    <div class="product-rating mb-2">
+        {% set rating = livre.getRatingMoyen()|round(0, 'floor') %}
+        {% set nombreAvis = livre.getNombreAvis() %}
+
+        <ul class="rating-stars">
+            {% for i in 1..5 %}
+                <li><i class="{{ i <= rating ? 'fas' : 'far' }} fa-star text-warning"></i></li>
+            {% endfor %}
+        </ul>
+
+        <span class="text-muted small">({{ nombreAvis }} avis)</span>
+
+        <a href="{{ path('client_livre_avis', {'id': livre.id}) }}" class="review-btn" title="Laisser un avis">
+            <i class="fas fa-pencil-alt"></i>
+        </a>
+    </div>
+                        <h2 class="product-title"><a href="{{ path('client_livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a></h2>
+                       <span class="product-author"><strong>Auteur:</strong>
+    {% for auteur in livre.auteurs %}
+        {{ auteur.prenom }} {{ auteur.nom }}{% if not loop.last %}, {% endif %}
+    {% else %}
+        N/A
+    {% endfor %}
+</span>
+
+                        <span class="product-categorie"><strong>Catégorie:</strong> {{ livre.categorie ? livre.categorie.getDesignation() : 'N/A' }}</span>
+
+                        <div class="price-wrapper mt-2">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <span class="fs-4 fw-bold text-primary">{{ livre.pu|number_format(2, '.', ',') }} DT</span>
+                                <span class="badge bg-light text-dark">Achat</span>
+                            </div>
+                            {% if livre.isEmpruntDisponible() and livre.quantiteEnStock > 0 %}
+                            <div class="mt-2">
+                                <span class="fs-3 fw-bold text-success">{{ livre.fraisEmprunt|default('0') }} DT</span>
+                                <span class="badge bg-success text-white fs-6">Emprunt {{ livre.dureeMaxEmprunt }} jours</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+
+                        <div class="mt-3 text-center">
+                            {% if livre.isEmpruntDisponible() and livre.quantiteEnStock > 0 and not livre.hasEmpruntEnCours %}
+                                <form method="post" action="{{ path('client_emprunt_ajouter', {'id': livre.id}) }}">
+                                    <button type="submit" class="btn btn-sm btn-success fw-bold shadow-sm w-100">Emprunter ({{ livre.dureeMaxEmprunt }} jours)</button>
+                                </form>
+                                <small class="d-block text-muted mt-1">Caution remboursable : <strong>{{ livre.caution }} DT</strong></small>
+                            {% elseif livre.hasEmpruntEnCours %}
+                                <button type="button" class="btn btn-sm btn-danger fw-bold shadow-sm btn-emprunt-bloque w-100">Emprunt impossible</button>
+                            {% else %}
+                                <button class="btn btn-sm btn-secondary w-100" disabled>
+                                    {% if livre.quantiteEnStock <= 0 %}Stock épuisé{% else %}Emprunt désactivé{% endif %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <p>Aucun livre trouvé.</p>
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="pagination-wrapper mt-4">
+            {{ knp_pagination_render(livres) }}
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+{{ include('partials/footer.html.twig') }}
+
+<script src="{{ asset('client/js/vendor/jquery-3.7.1.min.js')}}"></script>
+<script src="{{ asset('client/js/bootstrap.min.js')}}"></script>
+<script src="{{ asset('client/js/main.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.querySelectorAll('.btn-emprunt-bloque').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'warning',
+            title: 'Emprunt impossible',
+            html: `<p class="mb-3">Vous avez déjà un livre en cours d'emprunt.</p>
+                   <p class="text-muted"><i class="fas fa-info-circle me-2"></i>
+                   Terminez ou retournez votre livre actuel avant d'en emprunter un nouveau.</p>`,
+            confirmButtonText: 'Compris',
+            confirmButtonColor: '#dc3545',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            customClass: { popup: 'animated zoomIn faster' }
+        });
+    });
+});
+</script>
+
+{% endblock %}

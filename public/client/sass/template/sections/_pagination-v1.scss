@@ -1,0 +1,236 @@
+.vs-pagination {
+  margin-bottom: 30px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 3px;
+    list-style-type: none;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  span,
+  a {
+    display: inline-block;
+    font-family: var(--title-font);
+    color: var(--title-color);
+    text-align: center;
+    position: relative;
+    border: none;
+    width: 56px;
+    height: 56px;
+    line-height: 56px;
+    font-weight: 400;
+    font-size: 20px;
+    z-index: 1;
+    background-color: var(--white-color);
+    border-radius: 5px;
+  }
+}
+
+.post-pagi-box {
+  display: flex;
+  align-items: center;
+
+  > a {
+    color: $title-color;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: var(--title-font);
+
+    &:hover {
+      color: $theme-color;
+    }
+  }
+
+  img {
+    width: 80px;
+    margin-right: 25px;
+  }
+
+  &.next {
+    flex-direction: row-reverse;
+
+    img {
+      margin-right: 0;
+      margin-left: 25px;
+    }
+  }
+}
+
+.pagi-icon {
+  color: var(--theme-color);
+  font-size: 40px;
+  &:hover {
+    color: var(--theme-color);
+  }
+}
+
+@include sm {
+  .vs-pagination {
+    span,
+    a {
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      font-size: 14px;
+      padding: 0 10px;
+    }
+  }
+
+  .post-pagi-box {
+    > a {
+      font-size: 12px;
+    }
+
+    img {
+      width: 40px;
+      margin-right: 15px;
+    }
+
+    &.next img {
+      margin-right: 0;
+      margin-left: 15px;
+    }
+  }
+}
+
+.vs-pagination {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.vs-pagination ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vs-pagination span,
+.vs-pagination a {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px;
+  background-color: $body-color;
+  color: $title-color;
+  text-transform: capitalize;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $theme-color;
+  &.active,
+  &:hover {
+    color: $white-color;
+    background-color:$theme-color;
+  }
+}
+
+.vs-pagination span:before,
+.vs-pagination a:before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  top: 3px;
+  background-color: var(--vs-secondary-color);
+  border-radius: inherit;
+  transition: all ease 0.4s;
+  transform: scale(0.6);
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+}
+
+
+.vs-pagination span.active:before,
+.vs-pagination span:hover:before,
+.vs-pagination a.active:before,
+.vs-pagination a:hover:before {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.vs-pagination li {
+  display: inline-block;
+  margin: 0 2.5px;
+  list-style-type: none;
+}
+
+.vs-pagination .pagi-btn {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px;
+  background-color:$body-color;
+  color: $theme-color;
+  text-transform: capitalize;
+  display: inline-flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  i{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  &.active,
+  &:hover {
+    color: $white-color;
+    background-color: $theme-color;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .vs-pagination {
+    gap: 5px;
+    .pagi-btn{
+      width: 35px;
+      height: 35px;
+      i{
+        font-size: 14px;
+      }
+    }
+  }
+
+  .vs-pagination ul {
+    padding: 3px 3px;
+  }
+
+  .vs-pagination span,
+  .vs-pagination a {
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .vs-pagination li {
+    margin: 0 0;
+  }
+
+  .vs-pagination .pagi-btn {
+    padding: 11px 15px;
+    font-size: 12px;
+  }
+}

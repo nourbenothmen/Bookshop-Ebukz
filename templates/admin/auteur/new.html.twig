@@ -1,0 +1,11 @@
+{% extends 'admin/dashboard.html.twig' %}
+
+{% block title %}New Auteur{% endblock %}
+
+{% block body %}
+    <h1>Create new Auteur</h1>
+
+    {{ include('admin/auteur/_form.html.twig') }}
+
+    <a href="{{ path('admin_auteur_index') }}">back to list</a>
+{% endblock %}

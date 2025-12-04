@@ -1,0 +1,319 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accès Refusé{% endblock %}
+
+{% block body %}
+<div class="access-denied-container">
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <div class="main-content">
+        <div class="error-card">
+            <!-- Header Section -->
+            <div class="error-header">
+                <div class="error-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h1 class="error-title">Accès Refusé</h1>
+            </div>
+
+            <!-- Message Section -->
+            <div class="error-message">
+                <h2 class="message-title">Accès Restreint</h2>
+                <p class="message-text">
+                    Vous n'avez pas les autorisations nécessaires pour accéder à cette ressource. 
+                    Cette zone est réservée aux administrateurs du système.
+                </p>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="action-buttons">
+                <a href="{{ path('app_home') }}" class="btn btn-primary">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">Accueil</span>
+                </a>
+                <button onclick="history.back()" class="btn btn-secondary">
+                    <span class="btn-icon">↩️</span>
+                    <span class="btn-text">Retour</span>
+                </button>
+            </div>
+
+            <!-- User Info Section -->
+            <div class="user-info">
+                <div class="info-item">
+                    <span class="info-label">Connecté en tant que :</span>
+                    <span class="info-value">{{ app.user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Rôle :</span>
+                    <span class="info-badge">{{ app.user.roles[0] }}</span>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="footer-note">
+                <p>Pour toute demande d'accès, veuillez contacter votre administrateur système.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.access-denied-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: 20%;
+}
+
+.main-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 500px;
+}
+
+.error-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.error-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.error-icon {
+    color: #ff4757;
+    margin-bottom: 20px;
+}
+
+.error-icon svg {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.error-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.error-message {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.message-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.message-text {
+    color: #718096;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-secondary {
+    background: rgba(113, 128, 150, 0.1);
+    color: #4a5568;
+    border: 2px solid rgba(113, 128, 150, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+.btn-secondary:hover {
+    background: rgba(113, 128, 150, 0.2);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+.user-info {
+    background: rgba(113, 128, 150, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    color: #718096;
+    font-weight: 500;
+}
+
+.info-value {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.info-badge {
+    background: linear-gradient(135deg, #ffa502, #ff7e5f);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.footer-note {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(113, 128, 150, 0.1);
+}
+
+.footer-note p {
+    color: #718096;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .error-card {
+        padding: 30px 25px;
+        margin: 20px;
+    }
+    
+    .error-title {
+        font-size: 2rem;
+    }
+    
+    .message-title {
+        font-size: 1.3rem;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-card {
+        padding: 25px 20px;
+    }
+    
+    .error-title {
+        font-size: 1.8rem;
+    }
+}
+</style>
+{% endblock %}

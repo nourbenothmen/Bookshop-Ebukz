@@ -1,0 +1,38 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Reset Your Password{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-primary text-white">
+                    <h3>Reset Your Password</h3>
+                    <p class="small">Enter a new password for your account</p>
+                </div>
+                <div class="card-body">
+                    {{ form_start(resetForm) }}
+                        <div class="mb-3">
+                            {{ form_label(resetForm.plainPassword.first) }}
+                            {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'New password'}}) }}
+                            {{ form_errors(resetForm.plainPassword.first) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(resetForm.plainPassword.second) }}
+                            {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Repeat new password'}}) }}
+                            {{ form_errors(resetForm.plainPassword.second) }}
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                        </div>
+                    {{ form_end(resetForm) }}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ path('app_login') }}">Back to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

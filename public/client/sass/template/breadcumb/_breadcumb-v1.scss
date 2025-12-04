@@ -1,0 +1,128 @@
+.breadcumb-menu {
+  // max-width: 100%;
+  // margin: -1px;
+  // padding: 0;
+  // list-style-type: none;
+  // display: inline-flex;
+  // background-color: $secondary-color;
+  // min-width: 182px;
+  // padding: 17px 40px;
+  // align-items: center;
+  // border-top: 20px solid $body-color;
+  // border-left: 20px solid $body-color;
+  // border-right: 20px solid $body-color;
+  // border-radius: 6px 6px 0 0;
+  
+
+  span {
+    display: inline-block;
+    list-style: none;
+    position: relative;
+
+    &:after {
+      content: "//";
+      // width: 15px;
+      // height: 4px;
+      position: relative;
+      // margin: 0 10px;
+      // font-family: var(--icon-font);
+      font-size: 16px;
+      color: $title-color;
+      padding: 0 5px 0 10px;
+      // font-weight: 400;
+      // padding-top: 5px;
+      // border-radius: 10px;
+      // background-color: $theme-color;
+      @include respond-below(sm) {
+        font-size: 20px;
+        padding-top: 4px;
+      }
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+  }
+  span {
+    white-space: normal;
+    color: $theme-color;
+    word-break: break-word;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 20px;
+    font-family: $title-font;
+    display: inline-flex;
+    align-items: center;
+    a{
+      color: $title-color;
+      &:hover{
+        color: $theme-color;
+      }
+    }
+    @include respond-below(sm) {
+      font-size: 14px;
+    }
+    
+  }
+}
+.breadcumb-menu-wrap{
+  text-align: center;
+}
+.breadcumb-title {
+  color: $title-color;
+  margin-bottom: 16px;
+  font-size: 64px;
+  line-height: 115%;
+  text-align: center;
+  @include respond-below(sm) {
+    margin-bottom: 0px;
+  }
+}
+
+.breadcumb-text {
+  color: var(--silver-color);
+  margin-bottom: 0;
+  max-width: 50%;
+  font-size: 22px;
+  @include respond-below(lg) {
+    max-width: 73%;
+  }
+  @include respond-below(md) {
+    max-width: 90%;
+  }
+  @include respond-below(sm) {
+    max-width: 100%;
+    font-size: 17px;
+  }
+}
+.breadcumb-wrapper {
+  padding: 150px 0;
+  background-color: var(--title-color);
+  position: relative;
+  z-index: 1;
+  // &::before {
+  //   content: "";
+  //   @include overlay(1, -1);
+  //   background: #344E41;
+  //   background: linear-gradient(105deg, rgba(52, 78, 65, 0.93) 32%, rgba(0, 0, 0, 0.22) 75%);
+  // }
+  @include md {
+    padding: 100px 0;
+  }
+  @include respond-below(sm) {
+    padding: 50px 0;
+  }
+}
+
+@include md {
+  .breadcumb-title {
+    max-width: 100%;
+    font-size: 40px;
+  }
+
+  .breadcumb-menu {
+    margin-top: 15px;
+  }
+}

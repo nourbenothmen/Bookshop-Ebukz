@@ -1,0 +1,8 @@
+{# templates/admin/fields/cin_image.html.twig #}
+{% if value %}
+    <a href="{{ asset('uploads/cin/' ~ value) }}" target="_blank">
+        <img src="{{ asset('uploads/cin/' ~ value) }}" style="max-width: 100%; max-height: 500px; border: 2px solid #ddd;">
+    </a>
+{% else %}
+    <span class="text-muted">Aucune photo</span>
+{% endif %}

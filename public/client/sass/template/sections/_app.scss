@@ -1,0 +1,127 @@
+.app {
+  &-container {
+    background-color: var(--smoke-color);
+    position: relative;
+    z-index: 3;
+    margin-top: -155px;
+    &.style0 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    &.style2 {
+      margin-top: 0;
+      margin-bottom: -154px;
+    }
+    &-img {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: auto;
+      width: 50%;
+      z-index: -1;
+      @include respond-below(md) {
+        width: 100%;
+        height: 100%;
+      }
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: var(--title-color);
+        opacity: 0.85;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      &.style2 {
+        &::before {
+          background-color: var(--theme-color);
+        }
+      }
+    }
+    .vs-btn {
+      @include respond-below(md) {
+        background-color: var(--theme-color);
+      }
+    }
+  }
+  &-content {
+    padding: 65px 125px 65px 65px;
+    position: relative;
+    z-index: 1;
+    @include respond-below(sm) {
+      padding: 40px 20px 0;
+    }
+    .sec-title {
+      font-size: 40px;
+      margin-bottom: 35px;
+      @include respond-below(lg) {
+        font-size: 30px;
+      }
+      @include respond-below(md) {
+        font-size: 40px;
+      }
+      @include respond-below(sm) {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.call-block {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: var(--white-color);
+  font-weight: 600;
+  font-family: var(--title-font);
+  gap: 15px;
+  font-size: 24px;
+  @include respond-below(sm) {
+    font-size: 20px;
+  }
+  & > i {
+    min-width: 60px;
+    min-height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white-color);
+    border-radius: 0%;
+    color: var(--theme-color);
+    font-size: 18px;
+    @include smooth-transition;
+  }
+  & > span {
+    display: inline-block;
+    position: relative;
+    &::before {
+      position: absolute;
+      content: "";
+      width: 0%;
+      height: 1.5px;
+      bottom: 0;
+      background-color: var(--white-color);
+      @include smooth-transition;
+      right: 0;
+      transform: translateX(-15px);
+    }
+  }
+  &:hover {
+    color: var(--white-color);
+    @include smooth-transition;
+    i {
+      background-color: var(--theme-color);
+      color: var(--white-color);
+      @include smooth-transition;
+    }
+    span {
+      &::before {
+        width: 100%;
+        left: 0;
+        transform: translateX(-0px);
+        @include smooth-transition;
+      }
+    }
+  }
+}

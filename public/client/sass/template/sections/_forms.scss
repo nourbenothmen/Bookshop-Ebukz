@@ -1,0 +1,93 @@
+.form-control[type="date"]::-webkit-inner-spin-button,
+.form-control[type="date"]::-webkit-calendar-picker-indicator,
+.form-control[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+  margin-right: -20px;
+  position: relative;
+  z-index: 9;
+}
+
+.form-style1{
+  background-color: $body-color;
+  padding: 80px 60px;
+  border-radius: 20px;
+  transform: translateY(120px);
+  input{
+    background-color: $theme-color;
+    border-radius: 30px;
+    border: none;
+  }
+  
+  .form-group{
+    &:focus{
+      i{
+        color: $theme-color;
+      }
+    }
+  } 
+  
+  .form-control{
+    height: 60px;
+    line-height: 60px;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+    
+  }
+  .form-group{
+    &:last-child{
+      margin-bottom: 0;
+    }
+    i{
+      color: $body-color;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:focus{
+      i{
+        color: $theme-color !important;
+      }
+    }
+  }
+  .sec-title{
+    font-size: 40px;
+  }
+  .title-area {
+    margin-bottom: 40px;
+  }
+  .vs-btn{
+    margin-top: 20px;
+    color: $title-color;
+    background-color: $theme-color;
+    &::after,
+    &::before{
+      background-color: $theme-color;
+    }
+    &:hover{
+      color: $white-color;
+    }
+  }
+}
+
+
+
+@include lg{
+  .form-style1 {
+    transform: unset;
+  }
+}
+
+@include md{
+  .form-style1 .sec-title {
+    font-size: 28px;
+  }
+}
+@include xs{
+  .form-style1{
+    padding: 60px 15px;
+  }
+}
+
