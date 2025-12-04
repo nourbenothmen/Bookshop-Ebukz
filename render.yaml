@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: bookshop-symfony
+    env: docker
+    repo: "https://github.com/nourbenothmen/Bookshop-Ebukz.git"
+    dockerfilePath: ./Dockerfile
+    plan: free
